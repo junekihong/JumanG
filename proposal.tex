@@ -1,0 +1,59 @@
+% Juneki Hong and Michael Tango
+% Declarative Methods
+% Professor Eisner
+% March 4, 2013
+
+
+\documentclass{article}
+\author{Juneki Hong and Michael Tango}
+\title{Declarative Methods Project Proposal: \\ JumanG}
+\usepackage[ampersand]{easylist}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{Introduction}
+We will be creating a declarative language for Data Visualization. Given a set of data, and optionally some high level descriptions/constraints for how to display this data, we want to generate a representation of this data in a nice “pretty” way. At this time, we want to primarily focus on handling graphs. As loftier goals, it would also be nice to support charts and plots as well.
+
+A typical usecase might be as follows: 
+The user wants to visualize a graph such that the edges of the nodes cross as least as possible and all of the nodes are 3-colored. The user specifies these things and then provides an adjacency list. JumanG would come up with a nice ordering of the nodes that could be output and displayed.
+
+\section{Frontend}
+People will be able to make their own JumanG files, or .jm files that will encode a command to be carried out by JumanG. 
+
+These files should have in this order:
+
+\begin{easylist}[enumerate]
+& A specification of what type of visualization is needed. 
+
+We will work on graphs first, but we do want to have options for charts and plots if can get to them later
+
+& Constraints for the visualization (Optional). Examples might include:
+	
+	&& coloring all cliques of size 4 with orange
+	
+	&& labeling the nodes in topological order if possible
+
+& Specifications for the output (Optional). Examples might include:
+	
+	&& output the resulting graph into tikz format (for easy use in LaTeX)
+	
+	&& generate a 500x500 .jpg file
+
+& The data itself (or a file path to the data).
+
+\end{easylist}
+
+Anything not specified in the Constraints or Specifications section will observe default behavior. If applicable, when given no constraints or specifications are given, we also want JumanG to intelligently chose its own.
+
+\section{Backend}
+
+For the backend, we would like build on top of Graphviz in terms of displaying and manipulating graphs. Graphviz is a package that has lots of options when it comes to visualizing graphs, and we will try to take advantage of these and provide an interface with the user. For charts and plots, we want to use Scipy. Similar to Graphviz, it is an extensive library that we could use.
+
+For a programming language, our current plan is to build our project in Python. Professor Eisner has suggested that our project might integrate into Dyna as well.
+
+
+\end{document}
