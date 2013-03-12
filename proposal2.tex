@@ -1,0 +1,63 @@
+% Juneki Hong and Michael Tango
+% Declarative Methods
+% Professor Eisner
+% March 4, 2013
+
+
+\documentclass{article}
+\author{Juneki Hong and Michael Tango}
+\title{Declarative Methods Project Proposal: \\ JumanG}
+\usepackage[ampersand]{easylist}
+
+\begin{document}
+
+\maketitle
+
+
+VERSION 2
+
+
+\newpage
+
+\subsection*{Introduction}
+
+We will be creating a declarative language for Data Visualization. Specifically for visualizing dynamically changing graphs.
+JumanG will be able to derive a graph out of specifications over data, and redraw the graph whenever the specifications change.
+
+
+
+\subsection*{Frontend}
+
+According to Tim, a “change” in a graph should in reality be a change to the underlying data that the graph represents. Because of this, we would want JumanG be a language about relationships between data. Each variable declaration would specify a piece of data and its attributes. For example:
+
+\begin{verbatim}
+// Alice, Bob, and Casper are data that have these attributes
+Alice   [type: human, foo: bar, foods:  [apples, broccoli, cherries]] 
+Bob     [type: human, foo: baz, colors: [agenta, blue, curquoise]]
+Casper  [type: supernatural]
+
+// We could draw edges based on attributes or do it on a node-by-node basis.
+Bob -> [type: human]
+[foods: apples] -> [foo: baz]
+Bob -> Casper
+\end{verbatim}
+We would also be able to print out any node and see its attributes. Or print out an edge and see the attributes that activated it.
+
+There are a lot of issues that we could choose to solve with this project. we could color or position the generated nodes in a way that might better represent the attributes in the data. For example, if a lot of nodes with certain attributes happen to be connected together, we would want to try and recognize that by coloring them all similarly.
+
+\subsection*{Use Cases}
+Here are some possible interesting usecases:
+
+-Representing and maintaining someone's social network of friends as a graph, and changing this graph simply by altering the attributes of particular people. This data could be pulled automatically from someone’s profile to update the graph in real time.
+
+Taking a list of people and grouping them based on personality trait attributes. Each personality trait would be a node, and the strength of the edges between nodes would reflect how many people had both traits.
+
+
+
+\subsection*{Backend}
+
+For the backend, we would like build on top of Graphviz in terms of displaying and manipulating graphs. 
+For a programming language, our current plan is to build our project in Python. 
+
+
+\end{document}
