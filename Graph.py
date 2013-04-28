@@ -6,6 +6,8 @@ class Node:
     def __init__(self, name, label=None):
         self.Name = name
         self.Label = label
+        self.PosX = 0
+        self.PosY = 0
         self.Attributes = {}
 
     def __str__(self):
