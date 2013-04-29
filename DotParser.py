@@ -7,8 +7,6 @@ from Graph import *
 class DotParser:
 
    def __init__(self):
-      #self.EdgeList = []
-      #self.NodeList = []
       self.Graph = Graph()
 
    def readFile(self, filename):
@@ -90,6 +88,7 @@ class DotParser:
             self.Graph.addEdge(e1)
             self.Graph.addEdge(e2)
          elif "[" in line and "]" in line:
+            #Information about the node
             (line,attributes) = stripAttributes(line)            
             name = line.strip()
             n = Node(name)
@@ -99,6 +98,8 @@ class DotParser:
 
       for n in self.Graph.AdjacencyList:
          self.Graph.addNode(n)
+      return self.Graph
+
 
 if __name__ ==  "__main__":
    parser = DotParser()
@@ -121,9 +122,9 @@ if __name__ ==  "__main__":
 
    #try:
    filename = argv[1]
-   parser.readFile(filename)
+   graph = parser.readFile(filename)
 
-   print parser.Graph
+   print graph
 
 #   except(IndexError):
 #      print "ERROR: No file given"

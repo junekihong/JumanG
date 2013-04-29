@@ -80,20 +80,45 @@ class EdgeType:
 
 class Graph:
     def __init__(self, name = None):
-        self.NodeList = {}
+        #self.NodeList = {}
         self.AdjacencyList = {}
         self.Name = name
         
+    def getNodeList(self):
+        return self.AdjacencyList.keys()
 
     def addNode(self, n):
-        if self.NodeList.get(n,None) == None:
-            self.NodeList[n] = True
+        #if self.NodeList.get(n,None) == None:
+        #    self.NodeList[n] = True
+        if self.AdjacencyList.get(n,None) == None:
+            self.AdjacencyList[n] = []
+        else:
+            index = self.AdjacencyList.keys().index(n)
+            node = self.AdjacencyList.keys()[index]
+            node.Name = n.Name
+            node.Attributes = n.Attributes
+            node.Label = n.Label
+            node.PosX = n.PosX
+            node.PosY = n.PosY
 
     def addEdge(self, e):
-        if self.AdjacencyList.get(e.Node1,None) == None:
+        #If both node1 and node2 of the edge does not exist:
+        if self.AdjacencyList.get(e.Node1,None) == None and self.AdjacencyList.get(e.Node2,None) == None:
+            self.AdjacencyList[e.Node2] = []
             self.AdjacencyList[e.Node1] = [(e.Node2, e.Type)]
-        else:
+        # If node1 does not exist and node2 does:
+        elif self.AdjacencyList.get(e.Node1,None) == None:
+            node2 = self.AdjacencyList.keys().get(e.Node2)
+            self.AdjacencyList[e.Node1] = [(node2, e.Type)]
+        # If node2 does not exist and node1 does: 
+        elif self.AdjacencyList.get(e.Node2,None) == None:
+            self.AdjacencyList[e.Node2] = []
             self.AdjacencyList[e.Node1].append((e.Node2, e.Type))
+        # Else, both exist:
+        else:
+            index = self.AdjacencyList.keys().index(e.Node2)
+            node2 = self.AdjacencyList.keys()[index]
+            self.AdjacencyList[e.Node1].append((node2, e.Type))
 
 
     def __str__(self):
@@ -105,7 +130,7 @@ class Graph:
         result = result + "\n"
         result = result + "Nodes: \n"
         
-        for n1 in self.NodeList:
+        for n1 in self.AdjacencyList.keys():
             result = result + n1.__str__()
 
         result = result + "\n\n"
