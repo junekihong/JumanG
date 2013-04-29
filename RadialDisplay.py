@@ -10,10 +10,9 @@ armLength = 5
 # @Sink: If the sink should be the center, rather than the source
 def __recRadial(graph, root, degrees, start, layer):
 
-	if root in graph.AdjacencyList.keys():
-		children = graph.AdjacencyList[root]
+	children = graph.AdjacencyList[root]
 
-	else:
+	if len(children) ==0:
 		return
 
 	subDeg = degrees / len(children)
@@ -23,9 +22,9 @@ def __recRadial(graph, root, degrees, start, layer):
 		x = layer * armLength * cos(radians(currentDegrees+(subDeg/2)))
 		y = layer * armLength * sin(radians(currentDegrees+(subDeg/2)))
 
-		if x < .00001:
+		if abs(x)< .00001:
 			x = 0.0
-		if y < .00001:
+		if abs(y) < .00001:
 			y = 0.0
 
 		c.PosX = x
