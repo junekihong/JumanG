@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from sys import *
 from collections import deque
 from DotParser import *
 
@@ -12,7 +13,37 @@ class GraphAnalysis:
 
 
     def buildDependencyTable(self, graph):
-        return None
+        dependencyTable = {}
+        
+        for node in self.Graph.AdjacencyList:
+            edgeList = self.Graph.AdjacencyList[node]
+            for (node2,Type) in edgeList:
+                dependencyTable[node2] = dependencyTable.get(node2,[])
+                dependencyTable[node2].append(node)
+        
+
+        '''
+        print "dependency Table: "
+        string = ""
+        for node in dependencyTable:
+            string = string + node.__str__() + ": "
+
+            dependencyList = dependencyTable[node]
+            for dependency in dependencyList:
+                string = string + dependency.__str__() + " "
+                
+            string = string + "\n"
+        print string
+        '''
+        return dependencyTable
+
+
+    def getRootNodes(self):
+        rootList = []
+        for node in self.Graph.NodeList:
+            if node not in self.DependencyTable:
+                rootList.append(node)
+        return rootList
 
 
     def BFS(self, root):
@@ -30,7 +61,10 @@ class GraphAnalysis:
         
         while queue:
             node = queue.popleft()
-            children = self.Graph.AdjacencyList[node]
+            children = self.Graph.AdjacencyList.get(node,None)
+            
+            if children == None:
+                continue
             
             if DISPLAYSTEPS:
                 print "CURRENT NODE: ",node
@@ -64,3 +98,8 @@ if __name__ == "__main__":
     arbitraryRoot = graph.NodeList.keys()[0]
     analysis.BFS(arbitraryRoot)
     
+    
+    print "ROOTS"
+    rootList = analysis.getRootNodes()
+    for root in rootList:
+        print root
