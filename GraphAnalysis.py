@@ -19,24 +19,21 @@ class GraphAnalysis:
             edgeList = self.Graph.AdjacencyList[node]
             for (node2,Type) in edgeList:
                 dependencyTable[node2] = dependencyTable.get(node2,[])
-                dependencyTable[node2].append(node)
-        
+                dependencyTable[node2].append(node)        
+        return dependencyTable
 
-        '''
+    def printDependencyTable(self):
         print "dependency Table: "
         string = ""
-        for node in dependencyTable:
+        for node in self.DependencyTable:
             string = string + node.__str__() + ": "
-
-            dependencyList = dependencyTable[node]
+            
+            dependencyList = self.DependencyTable[node]
             for dependency in dependencyList:
                 string = string + dependency.__str__() + " "
                 
             string = string + "\n"
         print string
-        '''
-        return dependencyTable
-
 
     def getRootNodes(self):
         rootList = []
@@ -44,6 +41,27 @@ class GraphAnalysis:
             if node not in self.DependencyTable:
                 rootList.append(node)
         return rootList
+
+
+    def topologicalSort(self):
+        dependencyTable = self.buildDependencyTable(self.Graph)
+
+        queue = self.getRootNodes()
+        topoSort = []
+
+        while queue:
+            n = queue.pop()
+            topoSort.append(n)
+
+            adjacencies = self.Graph.AdjacencyList.get(n,None)
+            if not adjacencies == None: 
+                for (adjacency,edgeType) in adjacencies:
+                    #print adjacency
+                    dependencyTable.get(adjacency).remove(n)
+                    if not dependencyTable.get(adjacency):
+                        queue.append(adjacency)
+
+        return topoSort
 
 
     def BFS(self, root):
@@ -98,8 +116,17 @@ if __name__ == "__main__":
     arbitraryRoot = graph.NodeList.keys()[0]
     analysis.BFS(arbitraryRoot)
     
+    analysis.printDependencyTable
     
-    print "ROOTS"
+    print "ROOTS:"
     rootList = analysis.getRootNodes()
     for root in rootList:
         print root
+    print
+    
+
+    topoList = analysis.topologicalSort()
+    print "TOPOLOGICAL SORT:"
+    for node in topoList:
+        print node
+    print
