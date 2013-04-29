@@ -1,0 +1,9 @@
+digraph test {
+	Root -> Alpha
+	Root -> Bravo
+	Root -> Charlie
+	Root -> Delta
+
+	Alpha -> Echo
+	Alpha -> Foxtrot
+}

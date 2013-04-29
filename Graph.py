@@ -11,7 +11,7 @@ class Node:
         self.Attributes = {}
 
     def __str__(self):
-        result = "[" + self.Name + "]"
+        result = "[" + self.Name + "] @(" + str(self.PosX)+","+str(self.PosY)+")"
 
         if self.Attributes:
             result = result + "\t"
@@ -31,6 +31,9 @@ class Node:
     def __hash__(self):
         return hash(self.Name)
 
+    def __repr__(self):
+        return self.__str__()
+
 class Edge:
    def __init__(self, n1, n2, dirType):
       self.Node1 = n1
@@ -46,6 +49,9 @@ class Edge:
               result = result + attribute + ": " + self.Attributes[attribute] + ", "
 
       return result
+
+   def __repr__(self):
+      return self.__str__()
 
 typeDict = {
    0:0,
@@ -66,6 +72,8 @@ class EdgeType:
 
    def __str__(self):
       return displayDict[self.Type]
+   def __repr__(self):
+      return self.__str__()
 
 
 
@@ -113,3 +121,6 @@ class Graph:
         result = result + "}\n"
        
         return result
+
+    def __repr__(self):
+        return self.__str__()
