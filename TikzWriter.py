@@ -12,7 +12,7 @@ def tikGraph(graph, l = None):
 	output += "\t\\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 2cm]\n"
 
 	for n in graph.getNodeList():
-		output+="\t\\node ("+n.Name+") at ("+str(n.PosX)+", "+str(n.PosY)+") {"+n.Name+"};\n"
+		output+="\t\\node ("+n.Name+") at ("+"{0:.2f}".format(n.PosX)+", "+"{0:.2f}".format(n.PosY)+") {"+n.Name+"};\n"
 
 	for n1 in graph.getNodeList():
 		for (n2, t) in graph.AdjacencyList[n1]:

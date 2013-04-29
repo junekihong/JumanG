@@ -5,6 +5,7 @@ from math import cos, sin, radians
 
 
 armLength = 5
+visited = list()
 
 # @Graph: graph to be sorted
 # @Sink: If the sink should be the center, rather than the source
@@ -19,6 +20,9 @@ def __recRadial(graph, root, degrees, start, layer):
 	currentDegrees = start
 
 	for (c, t) in children:
+		if c in visited:
+			continue
+		visited.append(c)
 		x = layer * armLength * cos(radians(currentDegrees+(subDeg/2)))
 		y = layer * armLength * sin(radians(currentDegrees+(subDeg/2)))
 
@@ -38,12 +42,14 @@ def __recRadial(graph, root, degrees, start, layer):
 def radialAssign(graph, sink = False):
 
 	gSorted = list()
+	visited = list()
 
 	# Toposort goes HERE:
 	GA = GraphAnalysis(graph)
 
 	gSorted = GA.topologicalSort()
-
+	if len(gSorted)<1:
+		gSorted.append(graph.getNodeList()[0])
 	gSorted[0].PosX=0
 	gSorted[0].PosY=0
 	# root.PosX=0

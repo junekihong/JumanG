@@ -11,6 +11,6 @@ graph ethane {
      
 //     B -- C
 /*     D -- E
-     */E -- B
-     
+     E -- B
+     */
  }

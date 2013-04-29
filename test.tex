@@ -6,15 +6,18 @@
 \begin{document}
 \begin{tikzpicture}[scale=.9, transform shape]
 	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 2cm]
-	\node (Steve) at (0, 0) {Steve};
-	\node (Louis) at (0.0, -5.0) {Louis};
-	\node (Katrina) at (-7.07106781187, 7.07106781187) {Katrina};
-	\node (Danielle) at (0.0, 5.0) {Danielle};
-	\node (Vivian) at (7.07106781187, 7.07106781187) {Vivian};
-	\draw [->] (Steve)--(Danielle);
-	\draw [->] (Steve)--(Louis);
-	\draw [->] (Danielle)--(Vivian);
-	\draw [->] (Danielle)--(Katrina);
-	\draw [->] (Vivian)--(Katrina);
+	\node (Bravo) at (-3.54, 3.54) {Bravo};
+	\node (Charlie) at (-3.54, -3.54) {Charlie};
+	\node (Echo) at (9.27, 3.75) {Echo};
+	\node (Delta) at (3.54, -3.54) {Delta};
+	\node (Alpha) at (3.54, 3.54) {Alpha};
+	\node (Root) at (0.00, 0.00) {Root};
+	\node (Foxtrot) at (3.91, 9.21) {Foxtrot};
+	\draw [->] (Alpha)--(Echo);
+	\draw [->] (Alpha)--(Foxtrot);
+	\draw [->] (Root)--(Alpha);
+	\draw [->] (Root)--(Bravo);
+	\draw [->] (Root)--(Charlie);
+	\draw [->] (Root)--(Delta);
 \end{tikzpicture}
 \end{document}
