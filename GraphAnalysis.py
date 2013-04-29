@@ -37,7 +37,7 @@ class GraphAnalysis:
 
     def getRootNodes(self):
         rootList = []
-        for node in self.Graph.NodeList:
+        for node in self.Graph.getNodeList():
             if node not in self.DependencyTable:
                 rootList.append(node)
         return rootList
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
     print graph
 
-    arbitraryRoot = graph.NodeList.keys()[0]
+    arbitraryRoot = graph.getNodeList()[0]
     analysis.BFS(arbitraryRoot)
     
     analysis.printDependencyTable
