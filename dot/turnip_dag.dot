@@ -1,0 +1,16 @@
+digraph turnipheads {
+    Danielle [label="Danielle Seal"]
+    Steve [label="Steve Derosier"]
+    Louis [label="Louis Landa"]
+    Vivian [label="Vivian Meier"]
+    Katrina [label="Katrina Rash"]
+
+    Steve -> Danielle
+    Steve->Louis
+    Danielle->Vivian
+
+    Danielle->Katrina
+
+    Vivian->Katrina
+
+}
