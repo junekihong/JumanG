@@ -5,7 +5,8 @@ from DotParser import *
 from GraphAnalysis import *
 import TikzWriter as TW
 
-import RadialDisplay as RD
+import Solvers
+import Solvers.RadialDisplay as RD
 
 from sys import argv
 
