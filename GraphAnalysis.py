@@ -97,13 +97,31 @@ class GraphAnalysis:
         return len(self.Graph.AdjacencyList.keys())
     
     def numberOfEdges(self):
-        nodeList = self.Graph.AdjacencyList
         edges = 0
-        for node in nodeList:
+        for node in self.Graph.AdjacencyList:
             edgeList = self.Graph.AdjacencyList[node]
             edges = edges + len(edgeList)
         return edges
 
+    def numberOfLeaves(self):
+        count = 0
+        for node in self.Graph.AdjacencyList:
+            edgeList = self.Graph.AdjacencyList[node]
+            if not edgeList:
+                count += 1
+        return count
+
+    def numberOfNodesEdgesAndLeaves(self):
+        nodes = len(self.Graph.AdjacencyList)
+        edges = 0
+        leafCount = 0
+        for node in self.Graph.AdjacencyList: 
+            edgeList = self.Graph.AdjacencyList[node]
+            if not edgeList:
+                leafCount += 1
+            else:
+                edges += len(edgeList)
+        return (nodes, edges, leafCount)
 
 if __name__ == "__main__":
     parser = DotParser()
@@ -141,4 +159,9 @@ if __name__ == "__main__":
     print "NUMBER OF EDGES AND TOTAL NUMBER OF NODES:"
     print analysis.numberOfEdges(), analysis.numberOfNodes()
     print 
-
+    print "NUMBER OF LEAVES:"
+    print analysis.numberOfLeaves()
+    print
+    print "ALL 3: "
+    print analysis.numberOfNodesEdgesAndLeaves()
+    
