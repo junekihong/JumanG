@@ -195,3 +195,7 @@ class Graph:
         y = n1.PosY - n2.PosY
         return sqrt(x**2 + y**2)
 
+    @staticmethod
+    def nodeDistVect(n1, n2):
+        return (abs(n1.PosX-n2.PosX), abs(n1.PosY-n2.PosY))
+
