@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from Graph import *
 from Utils import *
 from GraphAnalysis import *
