@@ -63,7 +63,7 @@ class GraphAnalysis:
         return topoSort
 
 
-    def BFS(self, root):
+    def BFS(self, root, lookForCycles=False):
         DISPLAYSTEPS = False
 
         queue = deque()
@@ -92,6 +92,12 @@ class GraphAnalysis:
                     queue.append(childNode)
                     if DISPLAYSTEPS:
                         print "PUSHED: ", childNode
+                # If we have visited this node, then we have a cycle.
+                elif lookForCycles and childNode not in queue:
+                    #print childNode
+                    return lookForCycles
+        if lookForCycles:
+            return False
 
     def numberOfNodes(self):
         return len(self.Graph.AdjacencyList.keys())
@@ -164,4 +170,6 @@ if __name__ == "__main__":
     print
     print "ALL 3: "
     print analysis.numberOfNodesEdgesAndLeaves()
-    
+    print
+
+    print "GRAPH HAS CYCLES:", analysis.BFS(arbitraryRoot,True)
