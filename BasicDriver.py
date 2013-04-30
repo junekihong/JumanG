@@ -3,6 +3,7 @@ import RadialDisplay as RD
 import TikzWriter as TW
 import sys
 from DotParser import *
+import NBodyRepositioner as NB
 
 argv = sys.argv
 
@@ -22,6 +23,8 @@ DP.readFile(infile)
 graph = DP.Graph
 
 RD.radialAssign(graph)
+
+graph = NB.reposition(graph)
 
 TW.tikGraph(graph, outfile)
 

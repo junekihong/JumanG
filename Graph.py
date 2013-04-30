@@ -19,7 +19,7 @@ class Node:
         node = Node(name, label)
         node.PosX = self.PosX
         node.PosY = self.PosY
-        node.Attributes = copy.deepcopy(self.Attributes)
+        node.Attributes = deepcopy(self.Attributes)
         return node
         
         
@@ -91,7 +91,7 @@ class EdgeType:
         self.Type = typeDict.get(edgeType, None)
         
     def copy(self):
-        theType = copy.deepcopy(self.Type)
+        theType = deepcopy(self.Type)
         edgeType = EdgeType(theType)
         return edgeType
     
@@ -110,7 +110,7 @@ class Graph:
         self.Name = name
         
     def copy(self):
-        name = copy.deepcopy(self.Name)
+        name = deepcopy(self.Name)
         graph = Graph(name)
         for node in self.AdjacencyList:
             copiedNode = node.copy()
@@ -120,7 +120,7 @@ class Graph:
             for (node2,Type) in edgeList:
                 copiedNode2 = node2.copy()
                 copiedType = Type.copy()
-                graph.Adjacencylist[copiedNode].append((copiedNode2,copiedType))
+                graph.AdjacencyList[copiedNode].append((copiedNode2,copiedType))
         return graph
 
 
@@ -197,5 +197,5 @@ class Graph:
 
     @staticmethod
     def nodeDistVect(n1, n2):
-        return (abs(n1.PosX-n2.PosX), abs(n1.PosY-n2.PosY))
+        return (n1.PosX-n2.PosX, n1.PosY-n2.PosY)
 
