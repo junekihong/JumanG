@@ -4,7 +4,7 @@ from GraphAnalysis import *
 from math import cos, sin, radians
 
 
-armLength = 5
+armLength = 3
 visited = list()
 
 # @Graph: graph to be sorted

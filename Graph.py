@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from pprint import pprint
+from math import sqrt
 
 class Node:
     def __init__(self, name, label=None):
@@ -149,3 +150,10 @@ class Graph:
 
     def __repr__(self):
         return self.__str__()
+
+    @staticmethod
+    def nodeDist(n1, n2):
+        x = n1.PosX - n2.PosX
+        y = n1.PosY - n2.PosY
+        return sqrt(x**2 + y**2)
+
