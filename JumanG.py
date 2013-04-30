@@ -2,6 +2,7 @@
 
 from Utils import *
 from DotParser import *
+from GraphAnalysis import *
 import TikzWriter as TW
 
 import RadialDisplay as RD
@@ -12,10 +13,10 @@ class JumanG:
     
     def __init__(self, infile):
         self.Parser = DotParser()
-        self.Graph = Parser.readFile(infile)
-    
+        self.Graph = self.Parser.readFile(infile)
+        self.Analysis = GraphAnalysis(self.Graph)
 
-    def outputToTikz(outfile):
+    def outputToTikz(self, outfile):
         TW.tikGraph(self.Graph, outfile)
         
     def runRadial(self):
@@ -38,5 +39,5 @@ if __name__ == "__main__":
 
     juman = JumanG(infile)
     juman.runRadial()
-    juman.outputToTikz()
+    juman.outputToTikz(outfile)
 

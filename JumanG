@@ -1,18 +1,15 @@
 #!/bin/sh
 
+
 if [ $2 ]
 then
-    ./JumanG.py $*
-    pdflatex $2
     pdffile=${2%.*}
-    evince $pdffile.pdf
+    ./JumanG.py $* && pdflatex $2 && evince $pdffile.pdf
 elif [ $1 ]
 then
     outputFile="result.out"
-    ./JumanG.py $* $outputFile
-    pdflatex $outputFile
     pdffile=${outputFile%.*}
-    evince $pdffile.pdf
+    ./JumanG.py $* $outputFile && pdflatex $outputFile && evince $pdffile.pdf
 else
     ./JumanG.py $*
 fi
