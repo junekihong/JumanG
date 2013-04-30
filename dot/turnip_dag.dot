@@ -13,4 +13,6 @@ digraph turnipheads {
 
     Vivian->Katrina
 
+    Katrina->Louis
+
 }
