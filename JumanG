@@ -1,0 +1,24 @@
+#!/bin/sh
+
+
+
+echo $1
+echo $2
+echo
+
+if [ $2 ]
+then
+    ./JumanG.py $*
+    pdflatex $2
+    pdffile=${2%.*}
+    evince $pdffile.pdf
+elif [ $1 ]
+then
+    outputFile="result.out"
+    ./JumanG.py $* $outputFile
+    pdflatex $outputFile
+    pdffile=${outputFile%.*}
+    evince $pdffile.pdf
+else
+    ./JumanG.py $*
+fi
