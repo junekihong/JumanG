@@ -8,6 +8,18 @@ import RadialDisplay as RD
 
 from sys import argv
 
+class JumanG:
+    
+    def __init__(self, infile):
+        self.Parser = DotParser()
+        self.Graph = Parser.readFile(infile)
+    
+
+    def outputToTikz(outfile):
+        TW.tikGraph(self.Graph, outfile)
+        
+    def runRadial(self):
+        RD.radialAssign(self.Graph)
 
 if __name__ == "__main__":
     try:
@@ -24,10 +36,7 @@ if __name__ == "__main__":
         print
         exit()
 
-    Parser = DotParser()
-    graph = Parser.readFile(infile)
-
-    RD.radialAssign(graph)
-
-    TW.tikGraph(graph, outfile)
+    juman = JumanG(infile)
+    juman.runRadial()
+    juman.outputToTikz()
 
