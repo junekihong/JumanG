@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-from pprint import pprint
+from Utils import *
+
 
 class Node:
     def __init__(self, name, label=None):
@@ -9,21 +10,31 @@ class Node:
         self.PosX = 0
         self.PosY = 0
         self.Attributes = {}
+        
+    def copy(self):
+        name = self.Name
+        label = self.Label
 
+        node = Node(name, label)
+        node.PosX = self.PosX
+        node.PosY = self.PosY
+        node.Attributes = copy.deepcopy(self.Attributes)
+        return node
+        
+        
+        
     def __str__(self):
         result = "[" + self.Name + "] @(" + str(self.PosX)+","+str(self.PosY)+")"
-
+        
         if self.Attributes:
             result = result + "\t"
             for attribute in self.Attributes:
                 result = result + attribute + ": " + self.Attributes[attribute]+ ", "
-            result = result + "\n"
-
+            result = result
         return result 
 
     def __eq__(self, other):
         return self.Name == other.Name
-
 
     def __neq__(self, other):
         return not self.__eq__(other)
@@ -35,23 +46,31 @@ class Node:
         return self.__str__()
 
 class Edge:
-   def __init__(self, n1, n2, dirType):
-      self.Node1 = n1
-      self.Node2 = n2
-      self.Type = EdgeType(dirType)
-      self.Attributes = {}
+    def __init__(self, n1, n2, dirType):
+        self.Node1 = n1
+        self.Node2 = n2
+        self.Type = EdgeType(dirType)
+        self.Attributes = {}
 
-   def __str__(self):
-      result =  "[" + self.Node1.Name + self.Type.__str__() + self.Node2.Name + "]"
-      if self.Attributes:
-          result = result + "\t"
-          for attribute in self.Attributes:
-              result = result + attribute + ": " + self.Attributes[attribute] + ", "
+    def copy(self):
+        node1 = self.Node1.copy()
+        node2 = self.Node2.copy()
+        dirType = self.Type.copy()
 
-      return result
+        edge = Edge(node1, node2, dirType)
+        edge.Attributes = copy.deepcopy(self.Attributes)
+        return edge
 
-   def __repr__(self):
-      return self.__str__()
+    def __str__(self):
+        result =  "[" + self.Node1.Name + self.Type.__str__() + self.Node2.Name + "]"
+        if self.Attributes:
+            result = result + "\t"
+            for attribute in self.Attributes:
+                result = result + attribute + ": " + self.Attributes[attribute] + ", "
+        return result
+
+    def __repr__(self):
+        return self.__str__()
 
 typeDict = {
    0:0,
@@ -67,13 +86,18 @@ displayDict = {
 
 
 class EdgeType:
-   def __init__(self, edgeType):
-      self.Type = typeDict.get(edgeType, None)
-
-   def __str__(self):
-      return displayDict[self.Type]
-   def __repr__(self):
-      return self.__str__()
+    def __init__(self, edgeType):
+        self.Type = typeDict.get(edgeType, None)
+        
+    def copy(self):
+        theType = copy.deepcopy(self.Type)
+        edgeType = EdgeType(theType)
+        return edgeType
+    
+    def __str__(self):
+        return displayDict[self.Type]
+    def __repr__(self):
+        return self.__str__()
 
 
 
@@ -84,6 +108,21 @@ class Graph:
         self.AdjacencyList = {}
         self.Name = name
         
+    def copy(self):
+        name = copy.deepcopy(self.Name)
+        graph = Graph(name)
+        for node in self.AdjacencyList:
+            copiedNode = node.copy()
+            graph.AdjacencyList[copiedNode] = []
+            edgeList = self.AdjacencyList[node]
+            
+            for (node2,Type) in edgeList:
+                copiedNode2 = node2.copy()
+                copiedType = Type.copy()
+                graph.Adjacencylist[copiedNode].append((copiedNode2,copiedType))
+        return graph
+
+
     def getNodeList(self):
         return self.AdjacencyList.keys()
 
@@ -130,7 +169,7 @@ class Graph:
         result = result + "\n"
         result = result + "Nodes: \n"
         
-        for n1 in self.AdjacencyList.keys():
+        for n1 in self.getNodeList():
             result = result + n1.__str__()
 
         result = result + "\n\n"
@@ -146,6 +185,5 @@ class Graph:
         result = result + "}\n"
        
         return result
-
     def __repr__(self):
         return self.__str__()
