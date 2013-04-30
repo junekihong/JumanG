@@ -2,6 +2,7 @@
 
 from pprint import pprint
 from sys import argv
+from copy import deepcopy
 
 
 def stripAttributes(line):
