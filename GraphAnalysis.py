@@ -44,8 +44,7 @@ class GraphAnalysis:
 
 
     def topologicalSort(self):
-        dependencyTable = self.buildDependencyTable(self.Graph)
-
+        #dependencyTable = self.buildDependencyTable(self.Graph)
         queue = self.getRootNodes()
         topoSort = []
 
@@ -57,10 +56,10 @@ class GraphAnalysis:
             if not adjacencies == None: 
                 for (adjacency,edgeType) in adjacencies:
                     #print adjacency
-                    dependencyTable.get(adjacency).remove(n)
-                    if not dependencyTable.get(adjacency):
+                    self.DependencyTable.get(adjacency).remove(n)
+                    if not self.DependencyTable.get(adjacency):
                         queue.append(adjacency)
-
+        self.DependencyTable = self.buildDependencyTable(self.Graph)
         return topoSort
 
 
@@ -71,18 +70,14 @@ class GraphAnalysis:
         queue.append(root)
         
         if DISPLAYSTEPS:
-            print "ROOT",root
-            print
-        
+            print "ROOT",root,"\n"
+
         visited = {}
         visited[root] = True
         
         while queue:
             node = queue.popleft()
-            children = self.Graph.AdjacencyList.get(node,None)
-            
-            if children == None:
-                continue
+            children = self.Graph.AdjacencyList[node]
             
             if DISPLAYSTEPS:
                 print "CURRENT NODE: ",node
@@ -97,9 +92,17 @@ class GraphAnalysis:
                     queue.append(childNode)
                     if DISPLAYSTEPS:
                         print "PUSHED: ", childNode
-            if DISPLAYSTEPS:
-                print
 
+    def numberOfNodes(self):
+        return len(self.Graph.AdjacencyList.keys())
+    
+    def numberOfEdges(self):
+        nodeList = self.Graph.AdjacencyList
+        edges = 0
+        for node in nodeList:
+            edgeList = self.Graph.AdjacencyList[node]
+            edges = edges + len(edgeList)
+        return edges
 
 
 if __name__ == "__main__":
@@ -123,6 +126,9 @@ if __name__ == "__main__":
     for root in rootList:
         print root
     print
+
+    print "NUMBER OF ROOTS:", len(rootList)
+    print
     
 
     topoList = analysis.topologicalSort()
@@ -130,3 +136,9 @@ if __name__ == "__main__":
     for node in topoList:
         print node
     print
+
+    print
+    print "NUMBER OF EDGES AND TOTAL NUMBER OF NODES:"
+    print analysis.numberOfEdges(), analysis.numberOfNodes()
+    print 
+
