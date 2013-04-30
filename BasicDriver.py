@@ -1,9 +1,12 @@
+#!/usr/bin/python
+
 from Graph import *
-import RadialDisplay as RD
+
+import Solvers.RadialDisplay as RD
 import TikzWriter as TW
 import sys
 from DotParser import *
-import NBodyRepositioner as NB
+import Solvers.NBodyRepositioner as NB
 
 argv = sys.argv
 
