@@ -1,5 +1,6 @@
 rm *.aux *.log
 rm *.pyc
+rm \#*\#
 
 rm test*
 rm temp*

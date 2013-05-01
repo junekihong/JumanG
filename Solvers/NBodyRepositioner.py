@@ -7,7 +7,7 @@ armLength = 0
 
 def __calcForces(graph):
 
-	print armLength
+        #print armLength
 
 	toRet = dict()
 	for n1 in graph.getNodeList():
