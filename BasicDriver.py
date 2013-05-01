@@ -25,9 +25,9 @@ DP = DotParser()
 
 DP.readFile(infile)
 graph = DP.Graph
-
-RD.radialAssign(graph)
-
+# print graph
+graph = RD.radialAssign(graph)
+# print graph
 graph = NB.reposition(graph)
 
 TW.tikGraph(graph, outfile)

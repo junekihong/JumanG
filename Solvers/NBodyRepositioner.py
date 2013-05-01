@@ -2,10 +2,11 @@ from Graph import *
 from Utils import *
 from sys import float_info
 
-armLength = 3
 springConst = 1
+armLength = 0
 
 def __calcForces(graph):
+	# print armLength
 	toRet = dict()
 	for n1 in graph.getNodeList():
 		toRet[n1] = list()
@@ -13,6 +14,8 @@ def __calcForces(graph):
 			if n1 != n2:
 				(m,n) = Graph.nodeDistVect(n1,n2)
 				d = Graph.nodeDist(n1, n2)
+				if d ==0:
+					d = 1
 				f = (armLength**3)/(d**2)
 				toRet[n1].append((-(m/d)*f, -(n/d)*f))
 				for (n3, l) in graph.AdjacencyList[n1]:
@@ -39,6 +42,7 @@ def __jitter(graph, forces):
 
 
 def reposition(graph):
+	armLength = graph.getNumEdges() // 4 + 1
 	bestCopy = graph.copy()
 	minForce = float_info.max
 
@@ -61,6 +65,6 @@ def reposition(graph):
 			bestCopy = graph.copy()
 			minForce = m
 
-		__jitter(graph, forces)
+		__jitter(graph.copy(), forces)
 
 	return bestCopy

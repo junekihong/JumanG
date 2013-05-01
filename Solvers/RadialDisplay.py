@@ -41,8 +41,10 @@ def __recRadial(graph, root, degrees, start, layer, d):
 
 
 
-def radialAssign(graph, sink = False):
+def radialAssign(g, sink = False):
 
+	graph = g.copy()
+	# print graph
 	gSorted = list()
 	visited = list()
 
@@ -56,10 +58,13 @@ def radialAssign(graph, sink = False):
 	gSorted[0].PosY=0
 	# root.PosX=0
 	# root.PosY=0
+	d = False
+	if graph.Type == 1 :
+		d = True
 
 	# TODO: Add support for multiple roots
 
-	__recRadial(graph, gSorted[0], 360, 0, 1, False)
-	# __recRadial(graph, root, 360,0,1)
-
+	__recRadial(graph, gSorted[0], 360, 0, 1, d)
+	print graph
+	return graph
 

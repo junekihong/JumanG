@@ -164,6 +164,12 @@ class Graph:
             node2 = self.AdjacencyList.keys()[index]
             self.AdjacencyList[e.Node1].append((node2, e.Type))
 
+    def getNumEdges(self):
+        out = 0
+        for n in self.AdjacencyList.keys():
+            out += len(self.AdjacencyList[n])
+        return out;
+
 
     def __str__(self):
         result = "Graph "
