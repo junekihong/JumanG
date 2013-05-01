@@ -108,7 +108,8 @@ class Graph:
         #self.NodeList = {}
         self.AdjacencyList = {}
         self.Name = name
-        
+        self.Type = None
+
     def copy(self):
         name = deepcopy(self.Name)
         graph = Graph(name)
@@ -165,7 +166,10 @@ class Graph:
         result = "Graph "
         
         if self.Name != None:
-            result = result + self.Name
+            result = result + self.Name + " "
+
+        if self.Type != None:
+            result = result + "(" + self.Type + ")"
 
         result = result + "\n"
         result = result + "Nodes: \n"

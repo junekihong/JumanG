@@ -5,7 +5,6 @@ from Graph import *
 
 
 class DotParser:
-
    def __init__(self):
       self.Graph = Graph()
 
@@ -33,6 +32,10 @@ class DotParser:
          if braceStack == 0:
             break
          outerClose = outerClose + 1
+
+      
+      header = FILE[:outer-1]
+      self.readNameAndType(header)
             
 
       # From within the outer { } braces, we parse the graph
@@ -99,6 +102,12 @@ class DotParser:
       for n in self.Graph.AdjacencyList:
          self.Graph.addNode(n)
       return self.Graph
+
+   def readNameAndType(self, header):
+      header = header.split()
+      self.Graph.Type = header[0]
+      self.Graph.Name = header[1]
+
 
 
 if __name__ ==  "__main__":
