@@ -22,7 +22,9 @@ class Node:
         node.Attributes = deepcopy(self.Attributes)
         return node
         
-        
+    def setPosition(self,x,y):
+        self.PosX = x
+        self.PosY = y
         
     def __str__(self):
         result = "[" + self.Name + "] @(" + str(self.PosX)+","+str(self.PosY)+")"
@@ -88,7 +90,11 @@ displayDict = {
 
 class EdgeType:
     def __init__(self, edgeType):
+        if(edgeType != 0 and edgeType != 1):
+            edgeType = str(edgeType)
         self.Type = typeDict.get(edgeType, None)
+        #print "AAAAAA", edgeType, self.Type, edgeType == "->"
+        #print edgeType, edgeType.strip()
         
     def copy(self):
         theType = deepcopy(self.Type)
@@ -116,6 +122,8 @@ class Graph:
     def copy(self):
         name = deepcopy(self.Name)
         graph = Graph(name)
+        graph.Type = self.Type
+
         for node in self.AdjacencyList:
             copiedNode = node.copy()
             graph.AdjacencyList[copiedNode] = []
@@ -124,7 +132,10 @@ class Graph:
             for (node2,Type) in edgeList:
                 copiedNode2 = node2.copy()
                 copiedType = Type.copy()
-                graph.AdjacencyList[copiedNode].append((copiedNode2,copiedType))
+                copiedEdge = Edge(copiedNode, copiedNode2, copiedType)
+                
+                graph.addEdge(copiedEdge)
+                #graph.AdjacencyList[copiedNode].append((copiedNode2,copiedType))
         return graph
 
 
@@ -184,7 +195,7 @@ class Graph:
         result = result + "Nodes: \n"
         
         for n1 in self.getNodeList():
-            result = result + n1.__str__()
+            result = result + n1.__str__() + ", "
 
         result = result + "\n\n"
         result = result + "Adjacencies: "
@@ -212,3 +223,23 @@ class Graph:
     def nodeDistVect(n1, n2):
         return (n1.PosX-n2.PosX, n1.PosY-n2.PosY)
 
+
+
+if __name__ == "__main__":
+    graph = Graph()
+    n1 = Node("1")
+    n1.setPosition(1,1)
+    n2 = Node("2")
+    n2.setPosition(2,2)
+    graph.addNode(n1)
+    graph.addNode(n2)
+    e1 = Edge(n1,n2,"->")
+    graph.addEdge(e1)
+    
+    graph2 = graph.copy()
+    nodes2 = graph2.AdjacencyList.keys()
+    for n in nodes2:
+        n.setPosition(n.PosX*10,n.PosY*10)
+
+    print graph
+    print graph2
