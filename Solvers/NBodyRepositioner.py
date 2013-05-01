@@ -6,6 +6,12 @@ springConst = 1
 armLength = 0
 
 def __calcForces(graph):
+	global armLength
+	# mult = 1
+	if graph.Type ==1:
+		# mult = 16
+		armLength /=2
+
 
 	toRet = dict()
 	for n1 in graph.getNodeList():
