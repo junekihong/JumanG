@@ -17,8 +17,8 @@ class Node:
         label = self.Label
 
         node = Node(name, label)
-        node.PosX = self.PosX
-        node.PosY = self.PosY
+        node.PosX = deepcopy(self.PosX)
+        node.PosY = deepcopy(self.PosY)
         node.Attributes = deepcopy(self.Attributes)
         return node
         
