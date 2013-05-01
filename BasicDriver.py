@@ -27,8 +27,9 @@ DP.readFile(infile)
 graph = DP.Graph
 # print graph
 graph = RD.radialAssign(graph)
-# print graph
+print graph
 graph = NB.reposition(graph)
+print graph
 
 TW.tikGraph(graph, outfile)
 
