@@ -11,7 +11,6 @@ visited = list()
 # @Graph: graph to be sorted
 # @Sink: If the sink should be the center, rather than the source
 def __recRadial(graph, root, degrees, start, layer, d):
-
 	children = graph.AdjacencyList[root]
 
 	if len(children) ==0:
@@ -44,6 +43,7 @@ def __recRadial(graph, root, degrees, start, layer, d):
 def radialAssign(g, sink = False):
 
 	graph = g.copy()
+	# graph = g
 	# print graph
 	gSorted = list()
 	visited = list()
@@ -65,6 +65,6 @@ def radialAssign(g, sink = False):
 	# TODO: Add support for multiple roots
 
 	__recRadial(graph, gSorted[0], 360, 0, 1, d)
-	print graph
+	# print graph
 	return graph
 

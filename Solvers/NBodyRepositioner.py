@@ -6,7 +6,9 @@ springConst = 1
 armLength = 0
 
 def __calcForces(graph):
-	# print armLength
+
+	print armLength
+
 	toRet = dict()
 	for n1 in graph.getNodeList():
 		toRet[n1] = list()
@@ -42,6 +44,7 @@ def __jitter(graph, forces):
 
 
 def reposition(graph):
+	global armLength
 	armLength = graph.getNumEdges() // 4 + 1
 	bestCopy = graph.copy()
 	minForce = float_info.max
