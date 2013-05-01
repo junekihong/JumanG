@@ -105,7 +105,11 @@ class DotParser:
 
    def readNameAndType(self, header):
       header = header.split()
-      self.Graph.Type = header[0]
+      
+      graphType = header[0]
+      
+      self.Graph.Type = {"digraph":1, "graph":0}.get(graphType, 0)
+      
       self.Graph.Name = header[1]
 
 

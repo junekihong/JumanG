@@ -108,6 +108,9 @@ class Graph:
         #self.NodeList = {}
         self.AdjacencyList = {}
         self.Name = name
+
+        # 0 is an undirected graph.
+        # 1 is a directed graph.
         self.Type = None
 
     def copy(self):
@@ -169,7 +172,7 @@ class Graph:
             result = result + self.Name + " "
 
         if self.Type != None:
-            result = result + "(" + self.Type + ")"
+            result = result + "(" + {0:"Undirected Graph", 1:"Directed Graph"}[self.Type] + ")"
 
         result = result + "\n"
         result = result + "Nodes: \n"
