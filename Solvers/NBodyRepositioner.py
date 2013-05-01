@@ -13,7 +13,7 @@ def __calcForces(graph):
 			if n1 != n2:
 				(m,n) = Graph.nodeDistVect(n1,n2)
 				d = Graph.nodeDist(n1, n2)
-				f = (armLength)/(d**2)
+				f = (armLength**3)/(d**2)
 				toRet[n1].append((-(m/d)*f, -(n/d)*f))
 				for (n3, l) in graph.AdjacencyList[n1]:
 					if n2 == n3:

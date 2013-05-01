@@ -20,6 +20,7 @@ else:
 	infile = argv[1]
 	outfile = argv[2]
 
+directed = False
 DP = DotParser()
 
 DP.readFile(infile)

@@ -10,7 +10,7 @@ visited = list()
 
 # @Graph: graph to be sorted
 # @Sink: If the sink should be the center, rather than the source
-def __recRadial(graph, root, degrees, start, layer):
+def __recRadial(graph, root, degrees, start, layer, d):
 
 	children = graph.AdjacencyList[root]
 
@@ -23,7 +23,8 @@ def __recRadial(graph, root, degrees, start, layer):
 	for (c, t) in children:
 		if c in visited:
 			continue
-		visited.append(c)
+		if not d:
+			visited.append(c)
 		x = layer * armLength * cos(radians(currentDegrees+(subDeg/2)))
 		y = layer * armLength * sin(radians(currentDegrees+(subDeg/2)))
 
@@ -35,7 +36,7 @@ def __recRadial(graph, root, degrees, start, layer):
 		c.PosX = x
 		c.PosY = y
 
-		__recRadial(graph, c, subDeg, currentDegrees, layer+1)
+		__recRadial(graph, c, subDeg, currentDegrees, layer+1, d)
 		currentDegrees += subDeg
 
 
@@ -58,7 +59,7 @@ def radialAssign(graph, sink = False):
 
 	# TODO: Add support for multiple roots
 
-	__recRadial(graph, gSorted[0], 360, 0, 1)
+	__recRadial(graph, gSorted[0], 360, 0, 1, False)
 	# __recRadial(graph, root, 360,0,1)
 
 
