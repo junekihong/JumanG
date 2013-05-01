@@ -12,11 +12,6 @@ def __calcForces(graph):
 		# mult = 16
 		armLength /=2
 
-<<<<<<< HEAD
-=======
-        #print armLength
->>>>>>> 4c3cf51fb0a151f410a8e0324a36432a3282162d
-
 	toRet = dict()
 	for n1 in graph.getNodeList():
 		toRet[n1] = list()
