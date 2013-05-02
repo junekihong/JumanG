@@ -1,0 +1,9 @@
+graph test {
+      F -- D
+      F -- C
+      C -- D
+      D -- B
+      B -- E
+      E -- A
+      B -- A	
+}
