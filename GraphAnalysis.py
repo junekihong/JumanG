@@ -50,23 +50,42 @@ class GraphAnalysis:
         return rootList
 
 
-    def topologicalSort(self):
+    def topologicalSort(self, getLevel=False):
         dependencyTable = self.buildDependencyTable(self.Graph)
-        queue = self.getRootNodes()
+        queue = deque()
+        if getLevel:
+            for n in self.getRootNodes():
+                queue.append((n,0))
+        else:
+            for n in self.getRootNodes():
+                queue.append(n)
+
+        #print queue
+
         topoSort = []
 
         while queue:
-            n = queue.pop()
-            topoSort.append(n)
+            if getLevel:
+                (n,level) = queue.popleft()
+                topoSort.append((n,level))
+            else:
+                n = queue.popleft()
+                topoSort.append(n)
+            #print n.Name
 
             adjacencies = self.Graph.AdjacencyList.get(n,None)
+            #print "_______", adjacencies
             if not adjacencies == None: 
                 for (adjacency,edgeType) in adjacencies:
-                    #print adjacency
-                    self.DependencyTable.get(adjacency).remove(n)
-                    if not self.DependencyTable.get(adjacency):
-                        queue.append(adjacency)
-        #self.DependencyTable = self.buildDependencyTable(self.Graph)
+                    #print adjacencies, "|", adjacency, " | ", n
+                    dependencyTable.get(adjacency).remove(n)
+                    if not dependencyTable.get(adjacency):
+                        if getLevel:
+                            queue.append((adjacency,level+1))
+                        else:
+                            queue.append(adjacency)
+        
+            #print queue
         return topoSort
 
 
@@ -168,6 +187,12 @@ if __name__ == "__main__":
         print node
     print
 
+    topoList = analysis.topologicalSort(True)
+    print "TOPOLOGICAL SORT WITH LEVELS:"
+    for (node,level) in topoList:
+        print node, level
+    print
+
     print
     print "NUMBER OF EDGES AND TOTAL NUMBER OF NODES:"
     print analysis.numberOfEdges(), analysis.numberOfNodes()
@@ -180,3 +205,5 @@ if __name__ == "__main__":
     print
 
     print "GRAPH HAS CYCLES:", analysis.BFS(arbitraryRoot,True)
+
+    
