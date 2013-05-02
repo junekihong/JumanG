@@ -2,6 +2,8 @@ from Graph import *
 from Utils import *
 from sys import float_info
 
+from random import uniform
+
 springConst = 1
 armLength = 0
 
@@ -51,6 +53,12 @@ def reposition(graph):
 	armLength = graph.getNumEdges() // 4 + 1
 	bestCopy = graph.copy()
 	minForce = float_info.max
+
+        #Added random jitters to all the initial starting points for the nodes
+        for node in graph.AdjacencyList:
+                node.PosX += uniform(-1,1)
+                node.PosY += uniform(-1,1)
+
 
 	for x in xrange(1000):
 		forces = __calcForces(graph)
