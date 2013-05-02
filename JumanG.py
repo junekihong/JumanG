@@ -1,12 +1,14 @@
 #!/usr/bin/python
 
 from Utils import *
+from Graph import *
 from DotParser import *
 from GraphAnalysis import *
 import TikzWriter as TW
 
 import Solvers
 import Solvers.RadialDisplay as RD
+import Solvers.NBodyRepositioner as NB
 
 from sys import argv
 
@@ -17,11 +19,14 @@ class JumanG:
         self.Graph = self.Parser.readFile(infile)
         self.Analysis = GraphAnalysis(self.Graph)
 
-    def outputToTikz(self, outfile):
-        TW.tikGraph(self.Graph, outfile)
+    def outputToTikz(self, graph, outfile):
+        TW.tikGraph(graph, outfile)
         
     def runRadial(self):
-        RD.radialAssign(self.Graph)
+        return RD.radialAssign(self.Graph)
+
+    def runNBody(self):
+        return NB.reposition(self.runRadial())
 
 if __name__ == "__main__":
     try:
@@ -39,6 +44,12 @@ if __name__ == "__main__":
         exit()
 
     juman = JumanG(infile)
-    juman.runRadial()
-    juman.outputToTikz(outfile)
+    graph = juman.runRadial()
+
+    print graph
+    graph = juman.runNBody()
+    
+    print graph
+
+    juman.outputToTikz(graph, outfile)
 

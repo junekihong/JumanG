@@ -8,8 +8,9 @@ from DotParser import *
 class GraphAnalysis:
     def __init__(self, graph):
         self.Graph = graph
-        self.RootNode = None
-        self.DependencyTable = self.buildDependencyTable(self.Graph)
+        #self.RootNode = None
+        #self.DependencyTable = self.buildDependencyTable(self.Graph)
+        self.DependencyTable = None
 
 
     def buildDependencyTable(self, graph):
@@ -23,6 +24,9 @@ class GraphAnalysis:
         return dependencyTable
 
     def printDependencyTable(self):
+        if self.DependencyTable == None:
+            self.buildDependencyTable(self.Graph)
+
         print "dependency Table: "
         string = ""
         for node in self.DependencyTable:
@@ -36,6 +40,9 @@ class GraphAnalysis:
         print string
 
     def getRootNodes(self):
+        if self.DependencyTable == None:
+            self.DependencyTable = self.buildDependencyTable(self.Graph)
+
         rootList = []
         for node in self.Graph.getNodeList():
             if node not in self.DependencyTable:
@@ -44,7 +51,7 @@ class GraphAnalysis:
 
 
     def topologicalSort(self):
-        #dependencyTable = self.buildDependencyTable(self.Graph)
+        dependencyTable = self.buildDependencyTable(self.Graph)
         queue = self.getRootNodes()
         topoSort = []
 
@@ -59,7 +66,7 @@ class GraphAnalysis:
                     self.DependencyTable.get(adjacency).remove(n)
                     if not self.DependencyTable.get(adjacency):
                         queue.append(adjacency)
-        self.DependencyTable = self.buildDependencyTable(self.Graph)
+        #self.DependencyTable = self.buildDependencyTable(self.Graph)
         return topoSort
 
 

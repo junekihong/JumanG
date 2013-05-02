@@ -1,10 +1,13 @@
 from Graph import *
+from GraphAnalysis import *
+
 from Utils import *
 from sys import float_info
 
 from random import uniform
 
-springConst = 1
+#springConst = 1
+k = 1
 armLength = 0
 
 def __calcForces(graph):
@@ -23,8 +26,12 @@ def __calcForces(graph):
 				d = Graph.nodeDist(n1, n2)
 				if d ==0:
 					d = 1
-				f = (armLength**3)/(d**2)
-				toRet[n1].append((-(m/d)*f, -(n/d)*f))
+
+                                f = (armLength**3)/(d**2)
+                                #f = (d**2/k - k**2/d)
+                                
+                                
+                                toRet[n1].append((-(m/d)*f, -(n/d)*f))
 				for (n3, l) in graph.AdjacencyList[n1]:
 					if n2 == n3:
 						toRet[n1].append((m,n))
@@ -49,6 +56,10 @@ def __jitter(graph, forces):
 
 
 def reposition(graph):
+        #analysis = GraphAnalysis(graph)
+        #k = sqrt(100/analysis.numberOfEdges())
+
+
 	global armLength
 	armLength = graph.getNumEdges() // 4 + 1
 	bestCopy = graph.copy()
@@ -58,7 +69,7 @@ def reposition(graph):
         for node in graph.AdjacencyList:
                 node.PosX += uniform(-1,1)
                 node.PosY += uniform(-1,1)
-
+        
 
 	for x in xrange(1000):
 		forces = __calcForces(graph)
@@ -71,9 +82,10 @@ def reposition(graph):
 				yTot += y1
 				
 			# print n, xTot, yTot
-
+                        
 			m += sqrt(xTot**2 + yTot**2)
-		# print
+                        #print m
+                # print
 
 		if m < minForce:
 			bestCopy = graph.copy()
