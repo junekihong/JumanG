@@ -58,7 +58,8 @@ def __jitter(graph, forces):
 	
 
 
-def reposition(graph, reposition = True):
+def reposition(g, reposition = True):
+	graph= g.copy()
 	#analysis = GraphAnalysis(graph)
 	#k = sqrt(100/analysis.numberOfEdges())
 

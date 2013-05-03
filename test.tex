@@ -1,23 +1,21 @@
 % Tik output from JumanG
-\documentclass{article}
+\documentclass[class=minimal,border=0pt]{article}
 \usepackage{tikz}
 \pagestyle{empty}
 \usepackage{verbatim}
 \begin{document}
-\begin{tikzpicture}[scale=.9, transform shape]
-	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 2cm]
-	\node (Charlie) at (-2.12, -2.12) {Charlie};
-	\node (Delta) at (2.12, -2.12) {Delta};
-	\node (Echo) at (5.57, 2.25) {Echo};
-	\node (Bravo) at (-2.12, 2.12) {Bravo};
-	\node (Alpha) at (3.95, 3.89) {Alpha};
-	\node (Root) at (0.46, 0.44) {Root};
-	\node (Foxtrot) at (2.34, 5.52) {Foxtrot};
-	\draw [->] (Alpha)--(Echo);
-	\draw [->] (Alpha)--(Foxtrot);
-	\draw [->] (Root)--(Alpha);
-	\draw [->] (Root)--(Bravo);
-	\draw [->] (Root)--(Charlie);
-	\draw [->] (Root)--(Delta);
+\begin{tikzpicture}[scale=0.90, transform shape]
+	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
+	\node (Steve) at (3.75, -7.93) {Steve};
+	\node (Louis) at (7.03, -8.38) {Louis};
+	\node (Katrina) at (4.73, -10.25) {Katrina};
+	\node (Danielle) at (1.47, -7.66) {Danielle};
+	\node (Vivian) at (3.16, -5.94) {Vivian};
+	\draw [->] (Steve)--(Danielle);
+	\draw [->] (Steve)--(Louis);
+	\draw [->] (Katrina)--(Louis);
+	\draw [->] (Danielle)--(Vivian);
+	\draw [->] (Danielle)--(Katrina);
+	\draw [->] (Vivian)--(Katrina);
 \end{tikzpicture}
 \end{document}
