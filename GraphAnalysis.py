@@ -12,7 +12,6 @@ class GraphAnalysis:
         #self.DependencyTable = self.buildDependencyTable(self.Graph)
         self.DependencyTable = None
 
-
     def buildDependencyTable(self, graph):
         dependencyTable = {}
         
@@ -49,9 +48,9 @@ class GraphAnalysis:
                 rootList.append(node)
         return rootList
 
-
     def topologicalSort(self, getLevel=False):
         dependencyTable = self.buildDependencyTable(self.Graph)
+        topoSort = []
         queue = deque()
         if getLevel:
             for n in self.getRootNodes():
@@ -60,10 +59,6 @@ class GraphAnalysis:
             for n in self.getRootNodes():
                 queue.append(n)
 
-        #print queue
-
-        topoSort = []
-
         while queue:
             if getLevel:
                 (n,level) = queue.popleft()
@@ -71,26 +66,22 @@ class GraphAnalysis:
             else:
                 n = queue.popleft()
                 topoSort.append(n)
-            #print n.Name
 
             adjacencies = self.Graph.AdjacencyList.get(n,None)
-            #print "_______", adjacencies
             if not adjacencies == None: 
                 for (adjacency,edgeType) in adjacencies:
-                    #print adjacencies, "|", adjacency, " | ", n
                     dependencyTable.get(adjacency).remove(n)
                     if not dependencyTable.get(adjacency):
                         if getLevel:
                             queue.append((adjacency,level+1))
                         else:
                             queue.append(adjacency)
-        
-            #print queue
         return topoSort
 
 
     def BFS(self, root, lookForCycles=False):
         DISPLAYSTEPS = False
+        cycleCount= 0
 
         queue = deque()
         queue.append(root)
@@ -120,10 +111,11 @@ class GraphAnalysis:
                         print "PUSHED: ", childNode
                 # If we have visited this node, then we have a cycle.
                 elif lookForCycles and childNode not in queue:
-                    #print childNode
-                    return lookForCycles
+                    print childNode
+                    cycleCount += 1
+                    #return lookForCycles
         if lookForCycles:
-            return False
+            return cycleCount
 
     def numberOfNodes(self):
         return len(self.Graph.AdjacencyList.keys())
@@ -205,5 +197,6 @@ if __name__ == "__main__":
     print
 
     print "GRAPH HAS CYCLES:", analysis.BFS(arbitraryRoot,True)
+    print
 
-    
+    print analysis.BFS(arbitraryRoot,True)
