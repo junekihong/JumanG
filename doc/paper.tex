@@ -71,21 +71,32 @@ Introduced in 1992 by Eades (EADES CITATION), this layout lays the branches out 
 nodes at different radii from the center. We implemented our own radial solver that uses slightly different techniques than the original
 method. We wrote our solver to evenly distribute nodes around the root at each level, rather than using the traditional style of weighting 
 them based on the number of subnodes as is typical for a solver like this. We also chose to display nodes at their closest level to root. 
-This allows the solver to draw non-tree graphs fairly well; better, in fact, than Graphviz's twopi on these graphs (INSERT COMPARISON GRAPHS) 
+This allows the solver to draw non-tree graphs fairly well; better, in fact, than Graphviz's twopi on these graphs 
+%TODO (INSERT COMPARISON GRAPHS) 
 In general, a radial solver is better than a standard layered solver for drawing graphs that are relatively wider than they are deep. Our metric 
-for determining whether the radial solver should be used is given by a measure of width, number of nodes / depth of the graph (put in math eq?) (Juneki
-add more metanalysis here) (Insert some results here)
+for determining whether the radial solver should be used is given by a measure of width: 
+$$\frac{number_{nodes}}{depth_{graph}}$$
 
-In addition to the use as an arrangement for directed graphs, we also found that the radial solver worked as an excellent way to presort nodes for the
-Springs Solver, as it spreads the nodes out enough that the nodes resist clumping together.
+
+%TODO add more metanalysis here) (Insert some results here)
+
+In addition to the use as an arrangement for directed graphs, we also found that the radial solver worked as an excellent way to presort nodes for the Springs Solver, because it spreads the nodes out, preventing nodes from clumping together.
+
 
 \subsubsection{Springs Solver}
+%TODO
 citation for the springs\cite{springs}
+
+
 The springs algorithm, as outlined by (citation), computes a layout for a graph by approximating physics; all nodes repel each and every other node, 
 and edges act as springs to hold the nodes together. This requires deriving values for these forces, as more highly connected graphs will have 
 more edges, and thus more springs, throwing off the balance between the two forces that allows them to be spaced apart. In our solver, we decided
-the best way to do this was to hold the spring factor constant and to adjust the repulsion force to generate graphs of desired size. After much 
-experimentation, we determined that the equation to describe the force to be (math eq of total number of edges / total number of nodes +2 to the 3 /distance tithe 2)
+the best way to do this was to hold the spring factor constant and to adjust the repulsion force to generate graphs of desired size. After some 
+experimentation, we used this equation to describe the force: 
+%$$ \frac{number_{edges}}{number_{nodes}^{3}} $$
+%(math eq of total number of edges / total number of nodes +2 to the 3 /distance tithe 2)
+
+
 The spring function was held to simply the distance between the two objects, emulating a spring with a spring constant of 1. We then applied these forces
 to the nodes in the graph, keeping the result with the minimum total force in the system.
 
