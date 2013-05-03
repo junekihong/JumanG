@@ -21,7 +21,7 @@ def tikGraph(graph, l = None):
 
         #output += "\\resizebox{100}{100}{\n"
 	output += "\\begin{tikzpicture}[scale="+"{0:.2f}".format(scaleFactor)+", transform shape]\n"
-	output += "\t\\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 2cm]\n"
+	output += "\t\\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]\n"
 
 	for n in graph.getNodeList():
                 cleanedName = n.Name

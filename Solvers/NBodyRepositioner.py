@@ -16,7 +16,10 @@ def __calcForces(graph):
 	if graph.Type ==1:
 		# mult = 16
 		armLength /=2
+	if armLength<2:
+		armLength = 2
 
+	# print armLength
 	toRet = dict()
 	for n1 in graph.getNodeList():
 		toRet[n1] = list()
@@ -27,11 +30,11 @@ def __calcForces(graph):
 				if d ==0:
 					d = 1
 
-                                f = (armLength**3)/(d**2)
-                                #f = (d**2/k - k**2/d)
-                                
-                                
-                                toRet[n1].append((-(m/d)*f, -(n/d)*f))
+				f = (armLength**3)/(d**2)
+				#f = (d**2/k - k**2/d)
+				
+				
+				toRet[n1].append((-(m/d)*f, -(n/d)*f))
 				for (n3, l) in graph.AdjacencyList[n1]:
 					if n2 == n3:
 						toRet[n1].append((m,n))
@@ -55,21 +58,24 @@ def __jitter(graph, forces):
 	
 
 
-def reposition(graph):
-        #analysis = GraphAnalysis(graph)
-        #k = sqrt(100/analysis.numberOfEdges())
+def reposition(graph, reposition = True):
+	#analysis = GraphAnalysis(graph)
+	#k = sqrt(100/analysis.numberOfEdges())
 
 
 	global armLength
 	armLength = graph.getNumEdges() // 4 + 1
+	# print graph.getNumEdges()
+
 	bestCopy = graph.copy()
 	minForce = float_info.max
 
-        #Added random jitters to all the initial starting points for the nodes
-        for node in graph.AdjacencyList:
-                node.PosX += uniform(-1,1)
-                node.PosY += uniform(-1,1)
-        
+	#Added random jitters to all the initial starting points for the nodes
+	if reposition:
+		for node in graph.AdjacencyList:
+			node.PosX += uniform(-1,1)
+			node.PosY += uniform(-1,1)
+		
 
 	for x in xrange(1000):
 		forces = __calcForces(graph)
@@ -82,10 +88,10 @@ def reposition(graph):
 				yTot += y1
 				
 			# print n, xTot, yTot
-                        
+						
 			m += sqrt(xTot**2 + yTot**2)
-                        #print m
-                # print
+						#print m
+				# print
 
 		if m < minForce:
 			bestCopy = graph.copy()

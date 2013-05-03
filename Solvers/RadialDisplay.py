@@ -22,8 +22,8 @@ def __recRadial(graph, root, degrees, start, layer, d):
 	for (c, t) in children:
 		if c in visited:
 			continue
-		if not d:
-			visited.append(c)
+		# if not d:
+		visited.append(c)
 		x = layer * armLength * cos(radians(currentDegrees+(subDeg/2)))
 		y = layer * armLength * sin(radians(currentDegrees+(subDeg/2)))
 
@@ -34,9 +34,10 @@ def __recRadial(graph, root, degrees, start, layer, d):
 
 		c.PosX = x
 		c.PosY = y
-
-		__recRadial(graph, c, subDeg, currentDegrees, layer+1, d)
 		currentDegrees += subDeg
+
+	for(c, t) in children:
+		__recRadial(graph, c, subDeg, currentDegrees, layer+1, d)
 
 
 

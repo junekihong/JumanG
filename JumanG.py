@@ -26,7 +26,7 @@ class JumanG:
         return RD.radialAssign(self.Graph)
 
     def runNBody(self):
-        return NB.reposition(self.runRadial())
+        return NB.reposition(self.runRadial(), false)
 
 if __name__ == "__main__":
     try:

@@ -7,6 +7,7 @@ import TikzWriter as TW
 import sys
 from DotParser import *
 import Solvers.NBodyRepositioner as NB
+import Solvers.TopDownSolver as TD
 
 argv = sys.argv
 
@@ -27,9 +28,10 @@ DP.readFile(infile)
 graph = DP.Graph
 # print graph
 graph = RD.radialAssign(graph)
-print graph
-graph = NB.reposition(graph)
-print graph
+# print graph
+# print graph
+# graph = TD.arrange(graph)
+graph = NB.reposition(graph, False)
 
 TW.tikGraph(graph, outfile)
 
