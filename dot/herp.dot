@@ -1,6 +1,15 @@
 digraph triangle {
-      foo -> bar
-      bar -> mango
-      mango -> foo
+	a -> b
+	a -> c
 
+	b -> d
+	b -> e
+	c -> e
+	c -> f
+	b -> f
+	a -> c1
+	c1 -> d
+	b -> d
+	a -> c2
+	c2 -> e
 }

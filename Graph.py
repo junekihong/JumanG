@@ -111,7 +111,6 @@ class EdgeType:
 
 class Graph:
     def __init__(self, name = None):
-        #self.NodeList = {}
         self.AdjacencyList = {}
         self.Name = name
 
@@ -137,6 +136,17 @@ class Graph:
                 graph.addEdge(copiedEdge)
                 #graph.AdjacencyList[copiedNode].append((copiedNode2,copiedType))
         return graph
+
+
+    # Checks if node1 is adjacent to node2. In that order.
+    def isAdjacent(self,node1, node2):
+        edgeList = self.AdjacencyList.get(node1,None)
+        if edgeList == None:
+            return False
+        for (n2,edgeType) in edgeList:
+            if n2 == node2:
+                return True
+        return False
 
 
     def getNodeList(self):
@@ -245,3 +255,6 @@ if __name__ == "__main__":
 
     print graph
     print graph2
+
+    print "Node1 is adjacent to node2:"
+    print graph.isAdjacent(n1,n2)
