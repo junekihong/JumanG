@@ -46,9 +46,11 @@ if __name__ == "__main__":
     juman = JumanG(infile)
 
     graph = juman.runRadial()
-    print graph
+    # print graph
+    # graph = juman.runRadial()
+    # print graph
     graph = juman.runNBody()
-    print graph
+    # print graph
 
     juman.outputToTikz(graph, outfile)
 

@@ -42,6 +42,8 @@ def __recRadial(graph, root, degrees, start, layer, d):
 
 
 def radialAssign(g, sink = False):
+	global visited
+	visited = list()
 
 	graph = g.copy()
 	# graph = g
