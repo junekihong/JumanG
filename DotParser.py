@@ -7,8 +7,10 @@ from Graph import *
 class DotParser:
    def __init__(self):
       self.Graph = Graph()
-
+      self.FileName = None
+      
    def readFile(self, filename):
+      self.FileName = filename
       FILE = open(filename,'r')
       FILE = FILE.read()
 

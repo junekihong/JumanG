@@ -12,14 +12,17 @@ import Solvers.NBodyRepositioner as NB
 import Solvers.TopDownSolver as TD
 
 from sys import argv
-
+from subprocess import call
 
 NBODY = 0
 NBODY_RADIAL = 10
-NBODY_JITTER = 3
+NBODY_JITTER = 11
 TOPDOWN = 1
 RADIAL = 2
 #NBODYJ = 3
+
+CIRCO = 4
+
 
 class JumanG:
     def __init__(self, infile):
@@ -40,6 +43,13 @@ class JumanG:
         else:
             return NB.reposition(self.Graph,True)
 
+
+    def runCirco(self):
+        outputFile = "a.png"
+        call(["circo","-Tpng",self.Parser.FileName,"-o",outputFile])
+        call(["eog",outputFile])
+        return self.Graph
+
     def runTopDown(self):
         return TD.arrange(self.Graph)
 
@@ -50,9 +60,7 @@ class JumanG:
         numberOfRootNodes = len(rootNodes)
         hasCycles = True
         #If it is an acyclic graph, we can run topdown
-        if self.Graph.Type==1:
-
-
+        if self.Graph.Type==1 and rootNodes:
             hasCycles = self.Analysis.BFS(rootNodes[0],True)
             if not hasCycles:
                 topoList = self.Analysis.topologicalSort(True)
@@ -61,14 +69,15 @@ class JumanG:
                 print "numberOfNodes",numberOfNodes,"treeDepth",treeDepth
 
                 if numberOfNodes > pow(3,treeDepth) and numberOfRootNodes==1: 
-                #nodeToDepthRatio = float(numberOfNodes)/treeDepth
-                #if nodeToDepthRatio > 4:
-
                     self.State = RADIAL
                     return self.State
                 else:
                     self.State = TOPDOWN
                     return self.State
+        #If we have an acyclic graph that has no roots. Its some form of ring.
+        elif self.Graph.Type == 1:
+            self.State = CIRCO
+            return self.State
         else: # undirected graph
             # Metric for graph: connectedness: #nodes/#edges, < 3
             connectedness = self.Graph.getNumEdges()/float(numberOfNodes)
@@ -92,6 +101,8 @@ class JumanG:
             NBODY_JITTER:self.runNBody(False),
             TOPDOWN:self.runTopDown(),
             RADIAL:self.runRadial(),
+            
+            CIRCO:self.runCirco(),
             #NBODYJ:self.runNBody(False),
         }.get(choice,self.runNBody())
     
@@ -102,6 +113,8 @@ class JumanG:
             NBODY_JITTER:"NBODY_JITTER", 
             TOPDOWN:"TOPDOWN",
             RADIAL:"RADIAL",
+            
+            CIRCO:"CIRCO",
         }.get(self.State,"???")
     
 
@@ -134,6 +147,7 @@ if __name__ == "__main__":
     graph = juman.runChosenSolver()
     #print graph
 
-    
+    if choice == CIRCO:
+        exit(1)
     juman.outputToTikz(graph, outfile)
 
