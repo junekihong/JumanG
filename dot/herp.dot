@@ -1,4 +1,6 @@
 digraph triangle {
+	x -> b
+	y -> c
 	a -> b
 	a -> c
 
