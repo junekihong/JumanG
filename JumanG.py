@@ -26,7 +26,7 @@ class JumanG:
         return RD.radialAssign(self.Graph)
 
     def runNBody(self):
-        return NB.reposition(self.runRadial(), false)
+        return NB.reposition(self.runRadial(),False)
 
 if __name__ == "__main__":
     try:
@@ -44,11 +44,10 @@ if __name__ == "__main__":
         exit()
 
     juman = JumanG(infile)
-    graph = juman.runRadial()
 
+    graph = juman.runRadial()
     print graph
     graph = juman.runNBody()
-    
     print graph
 
     juman.outputToTikz(graph, outfile)
