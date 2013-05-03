@@ -29,10 +29,8 @@ graph = DP.Graph
 # print graph
 graph3 = RD.radialAssign(graph)
 # print graph
-# print graph
 # graph = TD.arrange(graph)
 graph2 = NB.reposition(graph3, False)
 
 TW.tikGraph(graph2, outfile)
-
 
