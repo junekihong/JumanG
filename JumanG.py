@@ -94,18 +94,35 @@ class JumanG:
     def runChosenSolver(self, choice = None):
         if choice == None:
             choice = self.State
-            print choice
-        return {
+        
+        #print "TEST",choice, CIRCO
+        
+        if choice == NBODY:
+            return self.runNBody()
+        if choice == NBODY_RADIAL:
+            return self.runNBody(True)
+        if choice == NBODY_JITTER:
+            return self.runNBody(False)
+        if choice == TOPDOWN:
+            return self.runTopDown()
+        if choice == RADIAL:
+            return self.runRadial()
+        if choice == CIRCO:
+            return self.runCirco()
+            
+        return self.runNBody()
+
+        '''return {
             NBODY:self.runNBody(),
             NBODY_RADIAL:self.runNBody(True),
             NBODY_JITTER:self.runNBody(False),
             TOPDOWN:self.runTopDown(),
             RADIAL:self.runRadial(),
-            
             CIRCO:self.runCirco(),
             #NBODYJ:self.runNBody(False),
         }.get(choice,self.runNBody())
-    
+        '''
+
     def printChoice(self):
         return {
             NBODY:"NBODY",
@@ -142,12 +159,16 @@ if __name__ == "__main__":
     #graph = juman.runNBody(False)
     
     choice = juman.chooseSolver()
-    print choice, juman.printChoice()
+    print "choice",choice, juman.printChoice()
+    
+
 
     graph = juman.runChosenSolver()
     #print graph
 
     if choice == CIRCO:
         exit(1)
+
+
     juman.outputToTikz(graph, outfile)
 
