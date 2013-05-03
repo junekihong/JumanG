@@ -24,24 +24,35 @@
 \maketitle
 
 \begin{abstract}
-There are several available tools available for displaying graphs in an attractive and aesthetically pleasing way. 
-However, different stratetegies for displaying the graphs are appropriate at different times depending on the features in the graph. Which 
-particular tool to use for any given graph is an exercise left to the user. Our program, JumanG, attempts to take the guesswork out of 
-this process and choose the correct display tool for the graph simply by analyzing the properties of the graph, while providing output that 
-matches or surpasses the quality provided by the industry standard.
+In this paper, we attempt to display graphs in an effective or aesthetically pleasing way. We implement several types of familiar graph layout methods, and then given a graph we perform some analysis to attempt to decide which method to perform. We will compare our implemented graph layout methods to similar GraphViz layout programs, and we will show how our display decision process automatically handles a variety of graphs appropriately.
+
 \end{abstract}
 
 \section{Introduction}
-Graphs can be used to represent various types of data and information. Graphs come in a variety of shapes and sizes, and as a result, 
-specialized layout methods need to be used with various and sundry types of graphs in order to get a layout that effectively and aesthetically 
-displays the graph. While tools have been developed to to encapsulate these methods, and they work well, they rely on the user to decide which 
-particular tool is necessary for a particular graph, requiring the user to understand properties of the graph in order to properly layout the
-graph. JumanG seeks to eliminate this burden of knowledge by deriving which tool is necessary for displaying the graph by doing analysis on
-the graph itself.
+Graphs can represent a wide range of data and information, and the task of visualizing graphs is important in revealing the patterns and underlying structure within them. Although many heuristics are available for what determines a "good" visualization such as number of edge crossings, regular spacing, and node overlaps, in the end the best way to visualize a given graph might be circumstantial or domain specific. 
+There are subsequently several specialized layout methods that can perform well in particular instances for effective or aesthetic display.
+ 
+Programs such as GraphViz have several different layout methods, but it relys on the user to decide which one to use. 
+In other words, the user is required to have an intuition about how each solver works and which one would make their graph appropriately look the best. Instead of saying \textit{how} the graph should be displayed, we would want the user to express that the graph should be displayed.
+JumanG seeks to derive which layout method is appropriate by doing some analysis on factors such as the size of the graph, directedness, branching factor, and cyclicity.
+
+
+
+
+
 
 JumanG is currently capable of displaying graphs and digraphs as described by the dot language. We developed three different solvers to handle 
 a variety of types of graphs and display them both clearly and correctly. JumanG outputs into the TikZ format for LaTeX for easy integration into 
 papers like this one.
+
+
+There are several available tools available for displaying graphs in an attractive and aesthetically pleasing way. 
+However, different strategies for displaying the graphs are appropriate at different times depending on the features in the graph. Which 
+particular tool to use for any given graph is an exercise left to the user. Our program, JumanG, attempts to take the guesswork out of 
+this process and choose the correct display tool for the graph simply by analyzing the properties of the graph, while providing output that 
+matches or surpasses the quality provided by the industry standard.
+
+
 \section{Graph Drawing}
 
 
@@ -74,7 +85,7 @@ The springs algorithm, as outlined by (citation), computes a layout for a graph 
 and edges act as springs to hold the nodes together. This requires deriving values for these forces, as more highly connected graphs will have 
 more edges, and thus more springs, throwing off the balance between the two forces that allows them to be spaced apart. In our solver, we decided
 the best way to do this was to hold the spring factor constant and to adjust the repulsion force to generate graphs of desired size. After much 
-experimentation, we determined that the equation to describe the force to be (math eq of total number of edges / total number of nodes +2 tothe 3 /distance tothe 2)
+experimentation, we determined that the equation to describe the force to be (math eq of total number of edges / total number of nodes +2 to the 3 /distance tithe 2)
 The spring function was held to simply the distance between the two objects, emulating a spring with a spring constant of 1. We then applied these forces
 to the nodes in the graph, keeping the result with the minimum total force in the system.
 
