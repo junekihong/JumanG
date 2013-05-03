@@ -1,0 +1,6 @@
+digraph triangle {
+      foo -> bar
+      bar -> mango
+      mango -> foo
+
+}
