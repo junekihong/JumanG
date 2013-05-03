@@ -93,7 +93,7 @@ and edges act as springs to hold the nodes together. This requires deriving valu
 more edges, and thus more springs, throwing off the balance between the two forces that allows them to be spaced apart. In our solver, we decided
 the best way to do this was to hold the spring factor constant and to adjust the repulsion force to generate graphs of desired size. After some 
 experimentation, we used this equation to describe the force: 
-%$$ \frac{number_{edges}}{number_{nodes}^{3}} $$
+$$ \frac{\frac{number_{edges}}{(number_{nodes}+2)^{3}}}{distance_{node1, node2}^2} $$
 %(math eq of total number of edges / total number of nodes +2 to the 3 /distance tithe 2)
 
 
