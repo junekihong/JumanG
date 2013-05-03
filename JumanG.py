@@ -9,6 +9,7 @@ import TikzWriter as TW
 import Solvers
 import Solvers.RadialDisplay as RD
 import Solvers.NBodyRepositioner as NB
+import Solvers.TopDownSolver as TD
 
 from sys import argv
 
@@ -27,6 +28,9 @@ class JumanG:
 
     def runNBody(self):
         return NB.reposition(self.runRadial(),False)
+
+    def runTopDown(self):
+        return TD.arrange(self.Graph)
 
 if __name__ == "__main__":
     try:
@@ -51,6 +55,9 @@ if __name__ == "__main__":
     # print graph
     graph = juman.runNBody()
     # print graph
+
+    graph = juman.runTopDown()
+    print graph
 
     juman.outputToTikz(graph, outfile)
 
