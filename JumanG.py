@@ -19,7 +19,8 @@ class JumanG:
         self.Parser = DotParser()
         self.Graph = self.Parser.readFile(infile)
         self.Analysis = GraphAnalysis(self.Graph)
-
+        self.State = 0
+        
     def outputToTikz(self, graph, outfile):
         TW.tikGraph(graph, outfile)
         
@@ -31,6 +32,19 @@ class JumanG:
 
     def runTopDown(self):
         return TD.arrange(self.Graph)
+
+    def chooseSolver(self):
+        self.State = 0
+        return self.State
+
+    def runChosenSolver(self):
+        return {
+            0:self.runNBody(),
+            1:self.runTopDown(),
+            2:self.runRadial(),
+        }[self.State]
+    
+    
 
 if __name__ == "__main__":
     try:
@@ -53,11 +67,13 @@ if __name__ == "__main__":
     # print graph
     # graph = juman.runRadial()
     # print graph
-    graph = juman.runNBody()
+    #graph = juman.runNBody()
     # print graph
 
-    graph = juman.runTopDown()
-    print graph
+    #graph = juman.runTopDown()
+    
+    #graph = juman.runChosenSolver()
+    #print graph
 
     juman.outputToTikz(graph, outfile)
 
