@@ -13,13 +13,17 @@ import Solvers.TopDownSolver as TD
 
 from sys import argv
 
+
+NBODY = 0
+TOPDOWN = 1
+RADIAL = 2
+
 class JumanG:
-    
     def __init__(self, infile):
         self.Parser = DotParser()
         self.Graph = self.Parser.readFile(infile)
         self.Analysis = GraphAnalysis(self.Graph)
-        self.State = 0
+        self.State = NBODY
         
     def outputToTikz(self, graph, outfile):
         TW.tikGraph(graph, outfile)
@@ -27,23 +31,57 @@ class JumanG:
     def runRadial(self):
         return RD.radialAssign(self.Graph)
 
-    def runNBody(self):
-        return NB.reposition(self.runRadial(),False)
+    def runNBody(self, useRadialSeed = True):
+        if useRadialSeed:
+            return NB.reposition(self.runRadial(),False)
+        else:
+            return NB.reposition(self.Graph,True)
 
     def runTopDown(self):
         return TD.arrange(self.Graph)
 
     def chooseSolver(self):
-        self.State = 0
+        (numberOfNodes,numberOfEdges,numberOfLeaves) = self.Analysis.numberOfNodesEdgesAndLeaves()
+
+        rootNodes = self.Analysis.getRootNodes()
+        numberOfRootNodes = len(rootNodes)
+        hasCycles = True
+        #If it is an acyclic graph, we can run topdown
+        if rootNodes:
+            hasCycles = self.Analysis.BFS(rootNodes[0],True)
+            if not hasCycles:
+                topoList = self.Analysis.topologicalSort(True)
+                treeDepth = topoList[-1][1]
+                
+                print "numberOfNodes",numberOfNodes,"treeDepth",treeDepth
+
+                if numberOfNodes > pow(2,treeDepth+1)-1: 
+                #nodeToDepthRatio = float(numberOfNodes)/treeDepth
+                #if nodeToDepthRatio > 4:
+                    self.State = RADIAL
+                    return self.State
+                else:
+                    self.State = TOPDOWN
+                    return self.State
+
+
+
+        self.State = NBODY
         return self.State
 
-    def runChosenSolver(self):
+    def runChosenSolver(self, choice = None):
+        if choice == None:
+            choice = self.State
         return {
-            0:self.runNBody(),
-            1:self.runTopDown(),
-            2:self.runRadial(),
-        }[self.State]
+            NBODY:self.runNBody(),
+            TOPDOWN:self.runTopDown(),
+            RADIAL:self.runRadial(),
+        }.get(choice,self.runNBody())
     
+    #def printChoice(self):
+    #     return {
+   
+    #    }.get(choice)
     
 
 if __name__ == "__main__":
@@ -63,17 +101,20 @@ if __name__ == "__main__":
 
     juman = JumanG(infile)
 
-    graph = juman.runRadial()
+    #graph = juman.runRadial()
     # print graph
-    # graph = juman.runRadial()
+    #graph = juman.runRadial()
     # print graph
-    #graph = juman.runNBody()
-    # print graph
+    graph = juman.runNBody(False)
+ #print graph
 
     #graph = juman.runTopDown()
     
-    #graph = juman.runChosenSolver()
-    #print graph
+    #choice = juman.chooseSolver()
+   # print choice
 
+    #graph = juman.runChosenSolver(0)
+    print graph
+    
     juman.outputToTikz(graph, outfile)
 

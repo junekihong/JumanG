@@ -3,6 +3,7 @@
 from pprint import pprint
 from sys import argv
 from copy import deepcopy
+from math import pow
 
 
 def stripAttributes(line):

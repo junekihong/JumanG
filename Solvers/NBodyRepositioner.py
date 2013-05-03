@@ -65,7 +65,7 @@ def reposition(g, reposition = True):
 
 
 	global armLength
-	armLength = graph.getNumEdges() // 4 + 1
+	armLength = graph.getNumEdges() // 3 + 1
 	# print graph.getNumEdges()
 
 	bestCopy = graph.copy()

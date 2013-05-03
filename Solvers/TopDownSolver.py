@@ -31,8 +31,8 @@ def arrange(g):
 	graph = g.copy()
 	GA = GraphAnalysis(graph)
 	nodepairs = GA.topologicalSort(True)
-        (_,lengthOfGraph) = nodepairs[-1]
-        armLength = 3 / log(lengthOfGraph)
+        #(_,lengthOfGraph) = nodepairs[-1]
+        #armLength = 3 / log(lengthOfGraph)
 
 
 	nodes = list()
