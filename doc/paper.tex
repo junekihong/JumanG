@@ -24,8 +24,11 @@
 \maketitle
 
 \begin{abstract}
-We attempted to display a description of a graph in a nicely formatted 
-We approached this problem using a variety of different algorithms
+There are several available tools available for displaying graphs in an attractive and aesthetically pleasing way, such as Graphviz's products. 
+However, different stratetegies for displaying the graphs are appropriate at different times depending on the features in the graph. Which 
+particular tool to use for any given graph is an exercise left to the user. Our program, JumanG, attempts to take the guesswork out of 
+this process and choose the correct display tool for the graph simply by analyzing the properties of the graph, while providing output that 
+matches or surpasses the quality of the standard set by Graphviz.
 \end{abstract}
 
 \section{Introduction}
@@ -44,19 +47,44 @@ The Dot Parser
 
 \subsubsection{Radial Solver}
 Radial displays have been used for some time to display trees of various data in a way different from the typical top-down approach.
-It is unusual, however, to use it to display graphs. We wrote our solver to evenly distribute nodes around the root at each level,
-rather than using the traditional style of weighting them based on the number of subnodes as is typical for a solver like this. 
-On graphs that are smaller than 
+Introduced in 1992 by Eades (EADES CITATION), this layout lays the branches out circularly around the root branching outwards, drawing 
+nodes at different radii from the center. We implemented our own radial solver that uses slightly different techniques than the original
+method. We wrote our solver to evenly distribute nodes around the root at each level, rather than using the traditional style of weighting 
+them based on the number of subnodes as is typical for a solver like this. We also chose to display nodes at their closest level to root. 
+This allows the solver to draw non-tree graphs fairly well; better, in fact, than Graphviz's twopi on these graphs (INSERT COMPARISON GRAPHS) 
+In general, a radial solver is better than a standard layered solver for drawing graphs that are relatively wider than they are deep. Our metric 
+for determining whether the radial solver should be used is given by a measure of width, number of nodes / depth of the graph (put in math eq?) (Juneki
+add more metanalysis here) (Insert some results here)
+
+In addition to the use as an arrangement for directed graphs, we also found that the radial solver worked as an excellent way to presort nodes for the
+Springs Solver, as it spreads the nodes out enough that the nodes resist clumping together.
 
 \subsubsection{Springs Solver}
 citation for the springs\cite{springs}
+The springs algorithm, as outlined by (citation), computes a layout for a graph by approximating physics; all nodes repel each and every other node, 
+and edges act as springs to hold the nodes together. This requires deriving values for these forces, as more highly connected graphs will have 
+more edges, and thus more springs, throwing off the balance between the two forces that allows them to be spaced apart. In our solver, we decided
+the best way to do this was to hold the spring factor constant and to adjust the repulsion force to generate graphs of desired size. After much 
+experimentation, we determined that the equation to describe the force to be (math eq of total number of edges / total number of nodes +2 tothe 3 /distance tothe 2)
+The spring function was held to simply the distance between the two objects, emulating a spring with a spring constant of 1. We then applied these forces
+to the nodes in the graph, keeping the result with the minimum total force in the system.
+
+In order for these nodes to move freely, however, they must be set to initial positions to react from. (citation of book) suggests 2 possible solutions: 
+Random Placement, and a layout based on geodesic distance. We support both options, the second through the radial placement algorithm as mentioned before.
+The radial placement works well for graphs with less connections, and gives the nodes good starting points to move from. More highly connected graphs,
+however, tend to get stuck in poor positions using this metric, and so for graphs with high connectivity, we default to the random placement. We define 
+connectivity as (total nodes / total edges), and we use the randomized solution on graphs with a connectivity higher than (3?).
+(insert some example graphs)
 
 \subsubsection{Layered Solver}
 Layered graph drawing is an approach to arranging directed acyclic graphs.
 
 
 \subsection{The Decoder}
-Tikz
+We decided to output our graphs to TikZ syntax, a package for drawing graphs in LaTeX, which we felt was a very appropriate format, and allowed us to ignore the 
+the difficulties of rendering graphics. This also allows us to directly embed our graphs into other LaTeX documents, such as this one. The algorithm for 
+writing the graphs is not particularly clever or efficient, and currently we have only one format, but the TikZ package is featureful enough that adding arbitrary
+features to the display would not be hard.
 
 
 \section{Experimental Comparison}

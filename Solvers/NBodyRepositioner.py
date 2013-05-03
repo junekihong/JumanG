@@ -3,21 +3,20 @@ from GraphAnalysis import *
 
 from Utils import *
 from sys import float_info
-
 from random import uniform
 
+# from math import ceil
 #springConst = 1
 k = 1
 armLength = 0
 
 def __calcForces(graph):
 	global armLength
-	# mult = 1
 	if graph.Type ==1:
-		# mult = 16
 		armLength /=2
 	if armLength<2:
 		armLength = 2
+	# armLength = 6
 
 	# print armLength
 	toRet = dict()
@@ -65,7 +64,7 @@ def reposition(g, reposition = True):
 
 
 	global armLength
-	armLength = graph.getNumEdges() // 3 + 1
+	armLength = graph.getNumEdges() / float(len(graph.getNodeList()))+2
 	# print graph.getNumEdges()
 
 	bestCopy = graph.copy()
@@ -74,8 +73,8 @@ def reposition(g, reposition = True):
 	#Added random jitters to all the initial starting points for the nodes
 	if reposition:
 		for node in graph.AdjacencyList:
-			node.PosX += uniform(-1,1)
-			node.PosY += uniform(-1,1)
+			node.PosX += uniform(-.5,.5)
+			node.PosY += uniform(-.5,.5)
 		
 
 	for x in xrange(1000):
