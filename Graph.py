@@ -163,8 +163,10 @@ class Graph:
             self.AdjacencyList[e.Node1] = [(e.Node2, e.Type)]
         # If node1 does not exist and node2 does:
         elif self.AdjacencyList.get(e.Node1,None) == None:
-            node2 = self.AdjacencyList.keys().get(e.Node2)
-            self.AdjacencyList[e.Node1] = [(node2, e.Type)]
+            # node2 = self.AdjacencyList.keys().get(e.Node2)
+            # self.AdjacencyList[e.Node1] = [(node2, e.Type)]
+            self.AdjacencyList[e.Node1] = []
+            self.AdjacencyList[e.Node2].append((e.Node1, e.Type))
         # If node2 does not exist and node1 does: 
         elif self.AdjacencyList.get(e.Node2,None) == None:
             self.AdjacencyList[e.Node2] = []
