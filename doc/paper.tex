@@ -24,15 +24,24 @@
 \maketitle
 
 \begin{abstract}
-There are several available tools available for displaying graphs in an attractive and aesthetically pleasing way, such as Graphviz's products. 
+There are several available tools available for displaying graphs in an attractive and aesthetically pleasing way. 
 However, different stratetegies for displaying the graphs are appropriate at different times depending on the features in the graph. Which 
 particular tool to use for any given graph is an exercise left to the user. Our program, JumanG, attempts to take the guesswork out of 
 this process and choose the correct display tool for the graph simply by analyzing the properties of the graph, while providing output that 
-matches or surpasses the quality of the standard set by Graphviz.
+matches or surpasses the quality provided by the industry standard.
 \end{abstract}
 
 \section{Introduction}
+Graphs can be used to represent various types of data and information. Graphs come in a variety of shapes and sizes, and as a result, 
+specialized layout methods need to be used with various and sundry types of graphs in order to get a layout that effectively and aesthetically 
+displays the graph. While tools have been developed to to encapsulate these methods, and they work well, they rely on the user to decide which 
+particular tool is necessary for a particular graph, requiring the user to understand properties of the graph in order to properly layout the
+graph. JumanG seeks to eliminate this burden of knowledge by deriving which tool is necessary for displaying the graph by doing analysis on
+the graph itself.
 
+JumanG is currently capable of displaying graphs and digraphs as described by the dot language. We developed three different solvers to handle 
+a variety of types of graphs and display them both clearly and correctly. JumanG outputs into the TikZ format for LaTeX for easy integration into 
+papers like this one.
 \section{Graph Drawing}
 
 
