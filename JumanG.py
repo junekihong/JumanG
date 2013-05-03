@@ -51,6 +51,8 @@ class JumanG:
         hasCycles = True
         #If it is an acyclic graph, we can run topdown
         if self.Graph.Type==1:
+
+
             hasCycles = self.Analysis.BFS(rootNodes[0],True)
             if not hasCycles:
                 topoList = self.Analysis.topologicalSort(True)
@@ -61,6 +63,7 @@ class JumanG:
                 if numberOfNodes > pow(3,treeDepth) and numberOfRootNodes==1: 
                 #nodeToDepthRatio = float(numberOfNodes)/treeDepth
                 #if nodeToDepthRatio > 4:
+
                     self.State = RADIAL
                     return self.State
                 else:
