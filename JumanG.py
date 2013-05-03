@@ -17,6 +17,7 @@ from sys import argv
 NBODY = 0
 TOPDOWN = 1
 RADIAL = 2
+NBODYJ = 3
 
 class JumanG:
     def __init__(self, infile):
@@ -47,35 +48,48 @@ class JumanG:
         numberOfRootNodes = len(rootNodes)
         hasCycles = True
         #If it is an acyclic graph, we can run topdown
-        if rootNodes:
-            hasCycles = self.Analysis.BFS(rootNodes[0],True)
-            if not hasCycles:
-                topoList = self.Analysis.topologicalSort(True)
-                treeDepth = topoList[-1][1]
-                
-                print "numberOfNodes",numberOfNodes,"treeDepth",treeDepth
+        if self.Graph.Type==1:
+            if rootNodes:
+                hasCycles = self.Analysis.BFS(rootNodes[0],True)
+                if not hasCycles:
+                    topoList = self.Analysis.topologicalSort(True)
+                    treeDepth = topoList[-1][1]
+                    
+                    print "numberOfNodes",numberOfNodes,"treeDepth",treeDepth
 
-                if numberOfNodes > pow(2,treeDepth+1)-1: 
-                #nodeToDepthRatio = float(numberOfNodes)/treeDepth
-                #if nodeToDepthRatio > 4:
-                    self.State = RADIAL
-                    return self.State
-                else:
-                    self.State = TOPDOWN
-                    return self.State
+                    if numberOfNodes > pow(2,treeDepth+1)-1: 
+                    #nodeToDepthRatio = float(numberOfNodes)/treeDepth
+                    #if nodeToDepthRatio > 4:
+                        self.State = RADIAL
+                        return self.State
+                    else:
+                        self.State = TOPDOWN
+                        return self.State
+        else: # undirected graph
+            # Metric for graph: connectedness: #nodes/#edges, < 3
+            c = self.Graph.getNumEdges()/float(numberOfNodes)
+            print c
+            if c < 3:
+                #radial -> nbody
+                self.State = NBODY
+            else:
+                #nbody random
+                self.State = NBODYJ
 
 
 
-        self.State = NBODY
+
         return self.State
 
     def runChosenSolver(self, choice = None):
         if choice == None:
             choice = self.State
+            print choice
         return {
             NBODY:self.runNBody(),
             TOPDOWN:self.runTopDown(),
             RADIAL:self.runRadial(),
+            NBODYJ:self.runNBody(False),
         }.get(choice,self.runNBody())
     
     #def printChoice(self):
@@ -105,15 +119,15 @@ if __name__ == "__main__":
     # print graph
     #graph = juman.runRadial()
     # print graph
-    graph = juman.runNBody(False)
+    # graph = juman.runNBody(False)
  #print graph
 
     #graph = juman.runTopDown()
     
-    #choice = juman.chooseSolver()
-   # print choice
+    choice = juman.chooseSolver()
+    print choice
 
-    #graph = juman.runChosenSolver(0)
+    graph = juman.runChosenSolver()
     print graph
     
     juman.outputToTikz(graph, outfile)
