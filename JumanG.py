@@ -15,9 +15,11 @@ from sys import argv
 
 
 NBODY = 0
+NBODY_RADIAL = 10
+NBODY_JITTER = 3
 TOPDOWN = 1
 RADIAL = 2
-NBODYJ = 3
+#NBODYJ = 3
 
 class JumanG:
     def __init__(self, infile):
@@ -67,17 +69,14 @@ class JumanG:
                         return self.State
         else: # undirected graph
             # Metric for graph: connectedness: #nodes/#edges, < 3
-            c = self.Graph.getNumEdges()/float(numberOfNodes)
-            print c
-            if c < 3:
+            connectedness = self.Graph.getNumEdges()/float(numberOfNodes)
+            print connectedness
+            if connectedness < 3:
                 #radial -> nbody
                 self.State = NBODY
             else:
                 #nbody random
-                self.State = NBODYJ
-
-
-
+                self.State = NBODY_JITTER
 
         return self.State
 
@@ -87,15 +86,21 @@ class JumanG:
             print choice
         return {
             NBODY:self.runNBody(),
+            NBODY_RADIAL:self.runNBody(True),
+            NBODY_JITTER:self.runNBody(False),
             TOPDOWN:self.runTopDown(),
             RADIAL:self.runRadial(),
-            NBODYJ:self.runNBody(False),
+            #NBODYJ:self.runNBody(False),
         }.get(choice,self.runNBody())
     
-    #def printChoice(self):
-    #     return {
-   
-    #    }.get(choice)
+    def printChoice(self):
+        return {
+            NBODY:"NBODY",
+            NBODY_RADIAL:"NBODY_RADIAL",
+            NBODY_JITTER:"NBODY_JITTER", 
+            TOPDOWN:"TOPDOWN",
+            RADIAL:"RADIAL",
+        }.get(self.State,"???")
     
 
 if __name__ == "__main__":
@@ -119,16 +124,14 @@ if __name__ == "__main__":
     # print graph
     #graph = juman.runRadial()
     # print graph
-    # graph = juman.runNBody(False)
- #print graph
-
-    #graph = juman.runTopDown()
+    #graph = juman.runNBody(False)
     
     choice = juman.chooseSolver()
-    print choice
+    print choice, juman.printChoice()
 
     graph = juman.runChosenSolver()
-    print graph
+    #print graph
+
     
     juman.outputToTikz(graph, outfile)
 
