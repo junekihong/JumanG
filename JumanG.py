@@ -51,22 +51,21 @@ class JumanG:
         hasCycles = True
         #If it is an acyclic graph, we can run topdown
         if self.Graph.Type==1:
-            if rootNodes:
-                hasCycles = self.Analysis.BFS(rootNodes[0],True)
-                if not hasCycles:
-                    topoList = self.Analysis.topologicalSort(True)
-                    treeDepth = topoList[-1][1]
-                    
-                    print "numberOfNodes",numberOfNodes,"treeDepth",treeDepth
+            hasCycles = self.Analysis.BFS(rootNodes[0],True)
+            if not hasCycles:
+                topoList = self.Analysis.topologicalSort(True)
+                treeDepth = topoList[-1][1]
+                
+                print "numberOfNodes",numberOfNodes,"treeDepth",treeDepth
 
-                    if numberOfNodes > pow(2,treeDepth+1)-1: 
-                    #nodeToDepthRatio = float(numberOfNodes)/treeDepth
-                    #if nodeToDepthRatio > 4:
-                        self.State = RADIAL
-                        return self.State
-                    else:
-                        self.State = TOPDOWN
-                        return self.State
+                if numberOfNodes > pow(3,treeDepth) and numberOfRootNodes==1: 
+                #nodeToDepthRatio = float(numberOfNodes)/treeDepth
+                #if nodeToDepthRatio > 4:
+                    self.State = RADIAL
+                    return self.State
+                else:
+                    self.State = TOPDOWN
+                    return self.State
         else: # undirected graph
             # Metric for graph: connectedness: #nodes/#edges, < 3
             connectedness = self.Graph.getNumEdges()/float(numberOfNodes)
