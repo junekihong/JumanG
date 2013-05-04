@@ -1,0 +1,20 @@
+% Tik output from JumanG
+\documentclass[class=minimal,border=0pt]{article}
+\usepackage{tikz}
+\pagestyle{empty}
+\usepackage{verbatim}
+\begin{document}
+\begin{tikzpicture}[scale=0.90, transform shape]
+	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
+	\node (Steve) at (0.00, 0.00) {Steve};
+	\node (Louis) at (0.00, -3.00) {Louis};
+	\node (Katrina) at (-4.24, 4.24) {Katrina};
+	\node (Danielle) at (0.00, 3.00) {Danielle};
+	\node (Vivian) at (4.24, 4.24) {Vivian};
+	\draw [->] (Steve)--(Danielle);
+	\draw [->] (Steve)--(Louis);
+	\draw [->] (Danielle)--(Vivian);
+	\draw [->] (Danielle)--(Katrina);
+	\draw [->] (Vivian)--(Katrina);
+\end{tikzpicture}
+\end{document}
