@@ -88,17 +88,22 @@ In addition to the use as an arrangement for directed graphs, we also found that
 citation for the springs\cite{springs}
 
 
-The springs algorithm, as outlined by (citation), computes a layout for a graph by approximating physics; all nodes repel each and every other node, 
-and edges act as springs to hold the nodes together. This requires deriving values for these forces, as more highly connected graphs will have 
-more edges, and thus more springs, throwing off the balance between the two forces that allows them to be spaced apart. In our solver, we decided
-the best way to do this was to hold the spring factor constant and to adjust the repulsion force to generate graphs of desired size. After some 
-experimentation, we used this equation to describe the force: 
-$$ \frac{\frac{number_{edges}}{(number_{nodes}+2)^{3}}}{distance_{node1, node2}^2} $$
-%(math eq of total number of edges / total number of nodes +2 to the 3 /distance tithe 2)
+The Springs algorithm, as outlined by (citation), computes a layout for a graph by running a physics simulation on the graph. All of the nodes are set to repel each other, while the edges are set as ``springs" to hold the nodes together. Our solver scales the repelling forces of the nodes based on how densely connected the graphs are, in order to prevent nodes being spaced too close or far apart in the end.
+
+The attraction function between two connected nodes is simply a linear factor of the distance between two nodes. We put in all of these constraints and then simulated the graph interacting with itself for several iterations, attempting to minimize the total energy in the system.
+
+Finally, the solver also requires the nodes to have an initial configuration. 
+%TODO citation of book
+suggests 2 possible approaches. The first being random placement, where all of the nodes are randomized, and the second being based on geodesic distance. We have implemented both options, and we use the Radial placement algorithm to 
 
 
-The spring function was held to simply the distance between the two objects, emulating a spring with a spring constant of 1. We then applied these forces
-to the nodes in the graph, keeping the result with the minimum total force in the system.
+The repulsion force in our Springs Solver:
+$$ \frac{(\frac{number_{edges}}{(number_{nodes})^{3}})}{d^2} $$
+Where d is the euclidean distance between any two nodes. 
+
+
+
+ 
 
 In order for these nodes to move freely, however, they must be set to initial positions to react from. (citation of book) suggests 2 possible solutions: 
 Random Placement, and a layout based on geodesic distance. We support both options, the second through the radial placement algorithm as mentioned before.
@@ -109,6 +114,17 @@ connectivity as (total nodes / total edges), and we use the randomized solution 
 
 \subsubsection{Layered Solver}
 Layered graph drawing is an approach to arranging directed acyclic graphs.
+
+
+\subsubsection{Circo Solver}
+Circo is a graph layout solver available from within GraphViz that specializes in arranging circular graphs. 
+We use Circo as one of our available graph solvers because we did not implement our own version of a circular layout solver.
+
+%TODO put in an example picture
+
+In our analysis of the given graph, we can determine that a graph is a directed cycle if there are no root nodes, that is nodes that do not have inward edges pointing to them. When a graph is a directed cycle, the Circo Solver tends to have good results. Our Springs Solver does a good job with undirected cycles because the edges ``pull" in both directions, and the balanced forces can properly work on the simulation. 
+
+
 
 
 \subsection{The Decoder}
