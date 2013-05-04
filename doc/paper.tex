@@ -343,16 +343,16 @@ By default, the decoder creates the output file that fills out an entire page of
 
 \section{Experimental Comparison}
 
-In many cases, our graph layout solvers perform comparatively to Graphviz solvers. For example here is a rendering of a Sierpinski triangle:
-
 \begin{figure}[h!]
 \caption{GraphViz's neato solver's version of a Sierpinski triangle}
+\label{neatoSierpinski}
 \centering
 \includegraphics[width=0.3\textwidth]{serp.png}
 \end{figure}
 
 \begin{figure}
-\caption{Our Spring Solver's version of the same Sierpinski triangle}
+\caption{Our Spring Solver's version of a Sierpinski triangle}
+\label{springSierpinski}
 \begin{tikzpicture}[scale=0.40, transform shape]
 	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
 	\node (1) at (4.55, -4.87) {1};
@@ -382,16 +382,19 @@ In many cases, our graph layout solvers perform comparatively to Graphviz solver
 \end{tikzpicture}
 \end{figure}
 
-In some cases, we can even beat GraphViz's performance by a small margin:
+In many cases, our graph layout solvers perform comparatively to Graphviz solvers. For example, in Figure~\ref{neatoSierpinski} we show GraphViz's ``neato" Spring Solver, compared to Figure~\ref{springSierpinski}. We render a Sierpinski triangle, automatically choosing the Springs solver with random jitter initialization.
+
 
 \begin{figure}[h!]
 \caption{GraphViz's 2Pi Radial Solver's version of an example graph}
+\label{twopiTurnip}
 \centering
 \includegraphics[width=0.15\textwidth]{turnip_dag.png}
 \end{figure}
 
 \begin{figure}
 \caption{Our Radial Solver's version of the example graph. Compared to 2Pi.}
+\label{radialTurnip}
 \begin{tikzpicture}[scale=0.60, transform shape]
 	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
 	\node (Steve) at (0.00, 0.00) {Steve};
@@ -406,6 +409,9 @@ In some cases, we can even beat GraphViz's performance by a small margin:
 	\draw [->] (Vivian)--(Katrina);
 \end{tikzpicture}
 \end{figure}
+
+
+In some cases, JumanG's solvers displayed graphs more effectively than comparable GraphViz solvers, as in Figure~\ref{twopiTurnip} and in Figure~\ref{radialTurnip}.
 
 
 
@@ -433,7 +439,7 @@ On a basic level, more solvers could be implemented and the analysis could furth
 
 
 \section{Conclusion}
-Graph drawing can be difficult due to the wildly varying expectations from different users and domains.
+Graph drawing can be difficult due to its underspecified nature. Across different users and domains there can be varying expectations and requirements. In this respect, trying to effectively represent any graph for any user might be intractible. However, JumanG attempts to handle this task anyway, achieving some good results on a variety of inputs. It does this by determining which layout is most appropriate to the input graph.
 
 
 
