@@ -412,24 +412,28 @@ In some cases, we can even beat GraphViz's performance by a small margin:
 
 \section{Future Work}
 JumanG could be extended in a variety of ways that may be interesting. 
-On a basic level, more solvers could be implemented and a more nuanced analysis could be used to choose among them. But instead of developing the solver decision tree by hand, we could try to learn parameters that determine which graph layouts are more favorable than others. 
 
-Using our graph analysis toolkit, we extracted out a set of features such as the size of the graph, its directedness, and its branching factor. We could also go further and have additional features such as the number of strongly connected components, diameter, or whether the graph is bipartite.
+\subsection{Learned Analysis Parameters}
+Instead of developing the solver decision tree by hand, we could try to learn parameters that determine which graph layouts are more favorable than others. 
 
-\subsection{Scalability}
-Currently, JumanG was developed in consideration with relatively small graphs.
+Using our graph analysis toolkit, we can extract a set of features of a graph such as its size, directedness, and branching factor. We could also go expand this and have additional features such as the strongly connected components, diameter, or bipartiteness.
 
+We could learn which parameters determine which graph layouts are the best. We could generate a large set of random graphs, and process all of them with each of our graph layout solvers. We could get annotated data by using a service like Mechanical Turk, presenting every solver's representation of each graph side-by-side and asking the users to choose the graph layout the best visualizes the data.
 
--Auto-scaling on graphs and nodes.
--More Solvers
--More detailed decision heuristics (Mechanical Turk)
--Greater Display Features / Dot Syntax support
+Using the analysis features, we could develop a multi-class classifier to learn which graph layouts are the best for any arbitrary graph.
 
 
+\subsection{Handling and Displaying more Dot Features}
+This project was primarily focused on graph layout, but the Dot Language can support much richer features such as edge labels, node labels, and node colors. Further work could include expanding our parser to handle anything within the Dot Language. We could also allow the user to set the positions of some of the nodes and then solve around them.
+
+
+\subsection{Additional Solvers}
+On a basic level, more solvers could be implemented and the analysis could further developed be used to choose among them. Additional Solvers might handle arranging graphs in N-dimensions, and the analysis could determine to use such a solver if the graph was sufficiently non-planar.
 
 
 
-\section{Conclusions}
+\section{Conclusion}
+Graph drawing can be difficult due to the wildly varying expectations from different users and domains.
 
 
 
