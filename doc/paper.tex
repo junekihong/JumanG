@@ -70,8 +70,6 @@ for determining whether the radial solver should be used is given by a measure o
 $$width = \frac{|nodes|}{depth_{graph}}$$
 
 Here are some results based on our radial solver:
-%TODO add more metanalysis here) (Insert some results here)
-
 
 
 
@@ -208,7 +206,7 @@ And based on some empirical testing we determined to use randomized initializati
 
 \begin{figure}
 \caption{A Densely Connected Graph with the Springs Solver with Random Jitter Initialization}
-\begin{tikzpicture}[scale=0.50, transform shape]
+\begin{tikzpicture}[scale=0.70, transform shape]
 	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
 	\node (k3) at (0.72, 3.87) {k3};
 	\node (k2) at (-3.06, -2.52) {k2};
@@ -240,7 +238,58 @@ And based on some empirical testing we determined to use randomized initializati
 
 
 \subsection{Layered Solver}
-Layered graph drawing is an approach to arranging directed acyclic graphs.
+Layered graph, or Sugiyama-style drawing is an approach to arranging directed acyclic graphs\cite{sugiyama}. This drawing approach relies on assigning the nodes to a ``layer" in the graph and then assigning descending y-coordinates for each successive layer from the root. Then, for each layer, the nodes are rearranged to minimize the edge crossings in between layers.
+
+Our implementation of a Layered Solver assigns its layers determined by a ``topological ordering" starting with the root nodes of the DAG. We topologically sort the graph, but all of the nodes are marked with the iteration at which they were added to the sorted list. 
+
+After determining all of the layers, the nodes in each layer are rearranged in an attempt to minimize edge crossings. Determining an ordering that minimizes edge crossings is NP-Complete\cite{EdgeCrossings}, and so we rely on heuristics to accomplish this task.
+
+\begin{figure}
+\caption{A Directed Acyclic Graph with the Layered Solver}
+\begin{tikzpicture}[scale=0.70, transform shape]
+	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
+	\node (a) at (0.00, 0.00) {a};
+	\node (c) at (1.50, -3.00) {c};
+	\node (b) at (-1.50, -3.00) {b};
+	\node (e) at (3.00, -6.00) {e};
+	\node (d) at (-3.00, -6.00) {d};
+	\node (f) at (0.00, -6.00) {f};
+	\node (c2) at (4.50, -3.00) {c2};
+	\node (c1) at (-4.50, -3.00) {c1};
+	\draw [->] (a)--(b);
+	\draw [->] (a)--(c);
+	\draw [->] (a)--(c1);
+	\draw [->] (a)--(c2);
+	\draw [->] (c)--(e);
+	\draw [->] (c)--(f);
+	\draw [->] (b)--(d);
+	\draw [->] (b)--(e);
+	\draw [->] (b)--(f);
+	\draw [->] (b)--(d);
+	\draw [->] (c2)--(e);
+	\draw [->] (c1)--(d);
+\end{tikzpicture}
+\end{figure}
+
+
+
+\subsubsection{Edge Crossing Minimization Heuristic}
+The heuristic our Layerd Solver used to order nodes and minimize edge crossings between layers relies on a calculation analogous to ``center of mass" using the edges between the surrounding layers. Each node is assigned an averaged index interpolating between the indexes of all the adjacent nodes above and below the layer, and then the nodes are sorted based on these indexes. 
+
+
+\begin{figure}
+\caption{Edge Crossing Heuristic Illustration}\label{layers}
+\centering
+\includegraphics[width=0.52\textwidth]{layereddia.png}
+\end{figure}
+
+From Figure~\ref{layers}, our index calculations are as such.
+
+$$ index(L_i , n_j) = \frac{\sum\limits_a index(L_{i-1}n_a) + \sum\limits_b index(L_{i+1}n_b)}{|L_{i-1}n_a| + |L_{i+1}n_b|}$$
+$$\forall Edge(n_a , n_j), Edge(n_j , n_b)$$
+This heuristic is greedy in that at each layer we try to place nodes closer to its adjacent nodes.
+
+
 
 
 \subsection{Circo Solver}
@@ -254,44 +303,47 @@ We use Circo as one of our available graph solvers because we did not implement 
 \includegraphics[width=0.3\textwidth]{circo.jpg}
 \end{figure}
 
-In our analysis of the given graph, we can determine that a graph is a directed cycle if there are no root nodes, that is nodes that do not have inward edges pointing to them. When a graph is a directed cycle, the Circo Solver tends to have good results. Our Springs Solver does a good job with undirected cycles because the edges ``pull" in both directions, and the balanced forces can properly work on the simulation. 
+In our analysis of the given graph, we can determine that a graph is a directed cycle if there are no root nodes, that is nodes that do not have inward edges pointing to them. When a graph is a directed cycle, the Circo Solver tends to have good results. 
 
-\begin{figure}
-\caption{The same Undirected Ring Graph solved by the Springs Solver}
-\begin{tikzpicture}[scale=0.40, transform shape]
-	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
-	\node (n0) at (-0.17, -0.79) {n0};
-	\node (n1) at (-0.17, 4.10) {n1};
-	\node (n2) at (4.06, 6.54) {n2};
-	\node (n3) at (8.30, 4.09) {n3};
-	\node (n4) at (8.30, -0.80) {n4};
-	\node (n5) at (4.06, -3.24) {n5};
-	\draw [-] (n0)--(n1);
-	\draw [-] (n0)--(n5);
-	\draw [-] (n1)--(n0);
-	\draw [-] (n1)--(n2);
-	\draw [-] (n2)--(n1);
-	\draw [-] (n2)--(n3);
-	\draw [-] (n3)--(n2);
-	\draw [-] (n3)--(n4);
-	\draw [-] (n4)--(n3);
-	\draw [-] (n4)--(n5);
-	\draw [-] (n5)--(n4);
-	\draw [-] (n5)--(n0);
-\end{tikzpicture}
-\end{figure}
+For undirected cycles, our Spring Solver does a good job because the edges ``pull" in both directions, and so the balanced forces can properly work on the simulation. In JumanG, we use our Spring Solver when we detect such undirected cycles. 
+
+%\begin{figure}
+%\caption{The same Undirected Ring Graph solved by the Springs Solver}
+%\begin{tikzpicture}[scale=0.40, transform shape]
+%	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
+%	\node (n0) at (-0.17, -0.79) {n0};
+%	\node (n1) at (-0.17, 4.10) {n1};
+%	\node (n2) at (4.06, 6.54) {n2};
+%	\node (n3) at (8.30, 4.09) {n3};
+%	\node (n4) at (8.30, -0.80) {n4};
+%	\node (n5) at (4.06, -3.24) {n5};
+%	\draw [-] (n0)--(n1);
+%	\draw [-] (n0)--(n5);
+%	\draw [-] (n1)--(n0);
+%	\draw [-] (n1)--(n2);
+%	\draw [-] (n2)--(n1);
+%	\draw [-] (n2)--(n3);
+%	\draw [-] (n3)--(n2);
+%	\draw [-] (n3)--(n4);
+%	\draw [-] (n4)--(n3);
+%	\draw [-] (n4)--(n5);
+%	\draw [-] (n5)--(n4);
+%	\draw [-] (n5)--(n0);
+%\end{tikzpicture}
+%\end{figure}
 
 
-\subsection{The Decoder}
-We decided to output our graphs to TikZ syntax, a package for drawing graphs in LaTeX, which we felt was a very appropriate format, and allowed us to ignore the 
-the difficulties of rendering graphics. This also allows us to directly embed our graphs into other LaTeX documents, such as this one. The algorithm for 
-writing the graphs is not particularly clever or efficient, and currently we have only one format, but the TikZ package is featureful enough that adding arbitrary
-features to the display would not be hard.
+\subsection{The Decoder: TikZ}
+After our analysis for choosing the solver and after running the chosen solver, JumanG outputs the processed graph out to TikZ LaTeX. TikZ is a graphics package we could manipulate directly to draw the nodes and edges at all the specified coordinates to represent the graph.
+
+By default, the decoder creates the output file that fills out an entire page of a document. The examples embedded in this paper have been scaled down.
+
+
 
 
 \section{Experimental Comparison}
 
-In most cases, we match Graphviz's implementation, such as in rendering a Sierpinski triangle:
+In many cases, our graph layout solvers perform comparatively to Graphviz solvers. For example here is a rendering of a Sierpinski triangle:
 
 \begin{figure}[h!]
 \caption{GraphViz's neato solver's version of a Sierpinski triangle}
@@ -328,18 +380,19 @@ In most cases, we match Graphviz's implementation, such as in rendering a Sierpi
 	\draw [-] (6)--(4);
 	\draw [-] (6)--(5);
 \end{tikzpicture}
+\end{figure}
 
 In some cases, we can even beat GraphViz's performance by a small margin:
 
 \begin{figure}[h!]
 \caption{GraphViz's 2Pi Radial Solver's version of an example graph}
 \centering
-\includegraphics[width=0.3\textwidth]{turnip_dag.png}
+\includegraphics[width=0.15\textwidth]{turnip_dag.png}
 \end{figure}
 
 \begin{figure}
 \caption{Our Radial Solver's version of the example graph. Compared to 2Pi.}
-\begin{tikzpicture}[scale=0.70, transform shape]
+\begin{tikzpicture}[scale=0.60, transform shape]
 	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
 	\node (Steve) at (0.00, 0.00) {Steve};
 	\node (Louis) at (0.00, -3.00) {Louis};
@@ -354,10 +407,31 @@ In some cases, we can even beat GraphViz's performance by a small margin:
 \end{tikzpicture}
 \end{figure}
 
+
+
+
 \section{Future Work}
+JumanG could be extended in a variety of ways that may be interesting. 
+On a basic level, more solvers could be implemented and a more nuanced analysis could be used to choose among them. But instead of developing the solver decision tree by hand, we could try to learn parameters that determine which graph layouts are more favorable than others. 
+
+Using our graph analysis toolkit, we extracted out a set of features such as the size of the graph, its directedness, and its branching factor. We could also go further and have additional features such as the number of strongly connected components, diameter, or whether the graph is bipartite.
+
+\subsection{Scalability}
+Currently, JumanG was developed in consideration with relatively small graphs.
+
+
+-Auto-scaling on graphs and nodes.
+-More Solvers
+-More detailed decision heuristics (Mechanical Turk)
+-Greater Display Features / Dot Syntax support
+
+
+
 
 
 \section{Conclusions}
+
+
 
 \bibliographystyle{plain}
 \bibliography{citations}
