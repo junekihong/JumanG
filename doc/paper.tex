@@ -293,6 +293,29 @@ features to the display would not be hard.
 \section{Experimental Comparison}
 
 
+\begin{figure}[h!]
+\caption{GraphViz's 2Pi Radial Solver's version of an example graph}
+\centering
+\includegraphics[width=0.3\textwidth]{turnip_dag.png}
+\end{figure}
+
+\begin{figure}
+\caption{Our Radial Solver's version of the example graph. Compared to 2Pi.}
+\begin{tikzpicture}[scale=0.70, transform shape]
+	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
+	\node (Steve) at (0.00, 0.00) {Steve};
+	\node (Louis) at (0.00, -3.00) {Louis};
+	\node (Katrina) at (-4.24, 4.24) {Katrina};
+	\node (Danielle) at (0.00, 3.00) {Danielle};
+	\node (Vivian) at (4.24, 4.24) {Vivian};
+	\draw [->] (Steve)--(Danielle);
+	\draw [->] (Steve)--(Louis);
+	\draw [->] (Danielle)--(Vivian);
+	\draw [->] (Danielle)--(Katrina);
+	\draw [->] (Vivian)--(Katrina);
+\end{tikzpicture}
+\end{figure}
+
 \section{Future Work}
 
 
