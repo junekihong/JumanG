@@ -59,12 +59,11 @@ In this way, we formed a Decision Tree that would allow JumanG's analysis to det
 
 \subsection{Radial Solver}
 Radial displays have been used to display trees in a way different from a typical top-down approach.
-Introduced in 1992 by Eades (EADES CITATION), this layout places the branches circularly around the root outwards, drawing 
+Introduced in 1992 by Eades \cite{freeTrees}, this layout places the branches circularly around the root outwards, drawing 
 nodes at different radii from the center. We implemented our own Radial solver that uses similar techniques to the original
 method. We wrote our solver to evenly distribute nodes around the root at each level, rather than the typical style of weighting 
 the nodes based on the subnodes. We also chose to display nodes at their closest level to root. 
-This allows the solver to draw non-tree graphs fairly well. Here is our solver against Graphviz's twopi on some of the same graphs: 
-%TODO (INSERT COMPARISON GRAPHS) 
+This allows the solver to draw non-tree graphs fairly well. In some instances, we can even beat Graphviz's twopi instantiation, detailed below in our experimental comparison section. %TODO wording
 
 A radial solver can be used rather than a standard layered solver for drawing graphs that are much wider than they are deep. Our metric 
 for determining whether the radial solver should be used is given by a measure of width: 
@@ -165,8 +164,8 @@ Where d is the euclidean distance between any two nodes.
 We defined the attraction function between two connected nodes as a linear factor of the distance between two nodes. With the constraints in place the simulation attempts to minimize the total energy in the graph.
 
 \subsubsection{Springs solver's Initialization}
-The Springs solver also requires the nodes to have an initial configuration. 
-%TODO citation of book
+The Springs solver also requires the nodes to have an initial configuration. Wilkinson \cite{grammarGraphics}
+%TODO style?
 suggests two possible approaches. The first being random placement, where all of the nodes are randomized, and the second being based on geodesic distance. We have implemented both options, the second option using the Radial solver as an alternative to this geodesic distance initialization. 
 
 The Radial initialization works well for graphs with sparse connections, spreading the nodes out, and giving the Springs algorithm a good starting point to begin minimizing the energy in the system. More densly connected graphs do not work as well using this, and so we default back to random jitter perturbation initialization.
@@ -292,6 +291,45 @@ features to the display would not be hard.
 
 \section{Experimental Comparison}
 
+In most cases, we match Graphviz's implementation, such as in rendering a Sierpinski triangle:
+
+\begin{figure}[h!]
+\caption{GraphViz's neato solver's version of a Sierpinski triangle}
+\centering
+\includegraphics[width=0.3\textwidth]{serp.png}
+\end{figure}
+
+\begin{figure}
+\caption{Our Spring Solver's version of the same Sierpinski triangle}
+\begin{tikzpicture}[scale=0.40, transform shape]
+	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
+	\node (1) at (4.55, -4.87) {1};
+	\node (3) at (-6.33, -1.86) {3};
+	\node (2) at (1.72, 6.06) {2};
+	\node (5) at (2.95, 0.54) {5};
+	\node (4) at (-0.84, -3.18) {4};
+	\node (6) at (-2.16, 1.96) {6};
+	\draw [-] (1)--(4);
+	\draw [-] (1)--(5);
+	\draw [-] (3)--(4);
+	\draw [-] (3)--(6);
+	\draw [-] (2)--(5);
+	\draw [-] (2)--(6);
+	\draw [-] (5)--(1);
+	\draw [-] (5)--(2);
+	\draw [-] (5)--(4);
+	\draw [-] (5)--(6);
+	\draw [-] (4)--(1);
+	\draw [-] (4)--(3);
+	\draw [-] (4)--(5);
+	\draw [-] (4)--(6);
+	\draw [-] (6)--(2);
+	\draw [-] (6)--(3);
+	\draw [-] (6)--(4);
+	\draw [-] (6)--(5);
+\end{tikzpicture}
+
+In some cases, we can even beat GraphViz's performance by a small margin:
 
 \begin{figure}[h!]
 \caption{GraphViz's 2Pi Radial Solver's version of an example graph}
