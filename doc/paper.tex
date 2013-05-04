@@ -12,6 +12,9 @@
 \usepackage{multirow}
 \usepackage{url}
 \usepackage{tikz}
+
+\usepackage[english]{babel}
+\usepackage{graphicx}
 \setlength\titlebox{6.5cm}    % Expanding the titlebox
 
 
@@ -174,7 +177,7 @@ And based on some empirical testing we determined to use randomized initializati
 
 
 \begin{figure}
-\caption{A Sparse Graph with the Springs Solver with Radial Initialization}
+\caption{A Sparsely Connected Graph with the Springs Solver with Radial Initialization}
 \begin{tikzpicture}[scale=0.40, transform shape]
 	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
 	\node (H4) at (0.16, -4.08) {H4};
@@ -205,7 +208,7 @@ And based on some empirical testing we determined to use randomized initializati
 
 
 \begin{figure}
-\caption{A Dense Graph with the Springs Solver with Random Jitter Initialization}
+\caption{A Densely Connected Graph with the Springs Solver with Random Jitter Initialization}
 \begin{tikzpicture}[scale=0.50, transform shape]
 	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
 	\node (k3) at (0.72, 3.87) {k3};
@@ -246,10 +249,38 @@ Circo is a graph layout solver available from within GraphViz that specializes i
 We use Circo as one of our available graph solvers because we did not implement our own version of a circular layout solver.
 
 %TODO put in an example picture
+\begin{figure}[h!]
+\caption{A Ring Graph solved by the Circo Solver}
+\centering
+\includegraphics[width=0.3\textwidth]{circo.jpg}
+\end{figure}
 
 In our analysis of the given graph, we can determine that a graph is a directed cycle if there are no root nodes, that is nodes that do not have inward edges pointing to them. When a graph is a directed cycle, the Circo Solver tends to have good results. Our Springs Solver does a good job with undirected cycles because the edges ``pull" in both directions, and the balanced forces can properly work on the simulation. 
 
-
+\begin{figure}
+\caption{The same Undirected Ring Graph solved by the Springs Solver}
+\begin{tikzpicture}[scale=0.40, transform shape]
+	\tikzstyle{every node} = [circle, fill=gray!30, minimum size = 1.8cm]
+	\node (n0) at (-0.17, -0.79) {n0};
+	\node (n1) at (-0.17, 4.10) {n1};
+	\node (n2) at (4.06, 6.54) {n2};
+	\node (n3) at (8.30, 4.09) {n3};
+	\node (n4) at (8.30, -0.80) {n4};
+	\node (n5) at (4.06, -3.24) {n5};
+	\draw [-] (n0)--(n1);
+	\draw [-] (n0)--(n5);
+	\draw [-] (n1)--(n0);
+	\draw [-] (n1)--(n2);
+	\draw [-] (n2)--(n1);
+	\draw [-] (n2)--(n3);
+	\draw [-] (n3)--(n2);
+	\draw [-] (n3)--(n4);
+	\draw [-] (n4)--(n3);
+	\draw [-] (n4)--(n5);
+	\draw [-] (n5)--(n4);
+	\draw [-] (n5)--(n0);
+\end{tikzpicture}
+\end{figure}
 
 
 \subsection{The Decoder}
