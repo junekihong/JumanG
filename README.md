@@ -1,7 +1,7 @@
 JumanG - "Graph drawing unleashed"
 
 Declarative Methods Final Project (600.425)
-Professor Eisner
+Professor Jason Eisner
 May 2013
 
 Project members:
@@ -19,10 +19,10 @@ Without GraphViz's Circo program, you will not be able to display directed cycle
 
 
 In order to run the parser, just call:
-./Dotparser.py [dot file] [optional output file]
+./JumanG [dot file] [optional output file]
 
 So for example:
-./Dotparser.py temp.dot
+./JumanG temp.dot
 Will parse the temp.dot file and then solve and display it using Tikz LaTeX.
 
 
